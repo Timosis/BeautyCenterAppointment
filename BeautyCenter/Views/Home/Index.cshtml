@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div>
+    @(Html.Kendo().DatePicker()
+                    .Name("datepicker")
+                    .Value("10/10/2011")
+                    .HtmlAttributes(new { style = "width: 100%", title = "datepicker" })
+    )
+</div>
+
