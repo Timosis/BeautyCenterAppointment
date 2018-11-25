@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BeautyCenter.Common.Infra\BeautyCenter.Common.Infra.csproj" />
+  </ItemGroup>
+
 </Project>
