@@ -2,5 +2,181 @@
     ViewData["Title"] = "Home Page";
 }
 
+<div class="m-portlet ">
+    <div class="m-portlet__body  m-portlet__body--no-padding">
+        <div class="row m-row--no-padding m-row--col-separator-xl">
+            <div class="col-md-12 col-lg-6 col-xl-3">
+
+                <!--begin::Total Profit-->
+                <div class="m-widget24">
+                    <div class="m-widget24__item">
+                        <h4 class="m-widget24__title">
+                            Toplam Gelir
+                        </h4><br>
+                        <span class="m-widget24__desc">
+                         Günlük
+                        </span>
+                        <span class="m-widget24__stats m--font-brand">
+                            $18M
+                        </span>
+                        <div class="m--space-10"></div>
+                        <div class="progress m-progress--sm">
+                            <div class="progress-bar m--bg-brand" role="progressbar" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--end::Total Profit-->
+            </div>
+            <div class="col-md-12 col-lg-6 col-xl-3">
+
+                <!--begin::New Feedbacks-->
+                <div class="m-widget24">
+                    <div class="m-widget24__item">
+                        <h4 class="m-widget24__title">
+                            Toplam Gider
+                        </h4><br>
+                        <span class="m-widget24__desc">
+                           Günlük
+                        </span>
+                        <span class="m-widget24__stats m--font-info">
+                            1349
+                        </span>
+                        <div class="m--space-10"></div>
+                        <div class="progress m-progress--sm">
+                            <div class="progress-bar m--bg-info" role="progressbar" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--end::New Feedbacks-->
+            </div>
+            <div class="col-md-12 col-lg-6 col-xl-3">
+
+                <!--begin::New Orders-->
+                <div class="m-widget24">
+                    <div class="m-widget24__item">
+                        <h4 class="m-widget24__title">
+                            Toplam Randevu
+                        </h4><br>
+                        <span class="m-widget24__desc">
+                            Günlük
+                        </span>
+                        <span class="m-widget24__stats m--font-danger">
+                            567
+                        </span>
+                        <div class="m--space-10"></div>
+                        <div class="progress m-progress--sm">
+                            <div class="progress-bar m--bg-danger" role="progressbar" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--end::New Orders-->
+            </div>
+            <div class="col-md-12 col-lg-6 col-xl-3">
+
+                <!--begin::New Users-->
+                <div class="m-widget24">
+                    <div class="m-widget24__item">
+                        <h4 class="m-widget24__title">
+                            Yeni Müşteri
+                        </h4><br>
+                        <span class="m-widget24__desc">
+                            Bugün
+                        </span>
+                        <span class="m-widget24__stats m--font-success">
+                            276
+                        </span>
+                        <div class="m--space-10"></div>
+                        <div class="progress m-progress--sm">
+                            <div class="progress-bar m--bg-success" role="progressbar" style="width: 100%;"></div>
+                        </div>
+                        <span class="m-widget24__change">
+                            
+                        </span>
+                        <span class="m-widget24__number">
+                            
+                        </span>
+                    </div>
+                </div>
+
+                <!--end::New Users-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ <div class="demo-section k-content wide">
+        @(Html.Kendo().Chart()
+                    .Name("chart")
+                    .Title("Gelir Gider Kâr")
+                    .Legend(legend => legend
+                        .Visible(false)
+                    )
+                    .Series(series =>
+                    {
+                        series
+                            .Column(new int[] { 854622, 925844, 984930, 1044982, 1100941, 1139797, 1172929, 1184435, 1184654 })
+                            .Name("0-19").Stack("Female");
+
+                        series
+                            .Column(new int[] { 490550, 555695, 627763, 718568, 810169, 883051, 942151, 1001395, 1058439 })
+                            .Name("20-39").Stack("Female");
+
+                        series
+                            .Column(new int[] { 379788, 411217, 447201, 484739, 395533, 435485, 499861, 569114, 655066 })
+                            .Name("40-64").Stack("Female");
+
+                        series
+                            .Column(new int[] { 97894, 113287, 128808, 137459, 152171, 170262, 191015, 210767, 226956 })
+                            .Name("65-79").Stack("Female");
+
+                        series
+                            .Column(new int[] { 16358, 18576, 24586, 30352, 36724, 42939, 46413, 54984, 66029 })
+                            .Name("80+").Stack("Female");
+
+                        series
+                            .Column(new int[] { 900268, 972205, 1031421, 1094547, 1155600, 1202766, 1244870, 1263637, 1268165 })
+                            .Name("0-19").Stack("Male");
+
+                        series
+                            .Column(new int[] { 509133, 579487, 655494, 749511, 844496, 916479, 973694, 1036548, 1099507 })
+                            .Name("20-39").Stack("Male");
+
+                        series
+                            .Column(new int[] { 364179, 401396, 440844, 479798, 390590, 430666, 495030, 564169, 646563 })
+                            .Name("40-64").Stack("Male");
+
+                        series
+                            .Column(new int[] { 74208, 86516, 98956, 107352, 120614, 138868, 158387, 177078, 192156 })
+                            .Name("65-79").Stack("Male");
+
+                        series
+                            .Column(new int[] { 9187, 10752, 13007, 15983, 19442, 23020, 25868, 31462, 39223 })
+                            .Name("80+").Stack("Male");
+                    })
+                    .SeriesColors(
+                        "#cd1533", "#d43851", "#dc5c71", "#e47f8f", "#eba1ad",
+                         "#009bd7", "#26aadd", "#4db9e3", "#73c8e9", "#99d7ef"
+                    )
+                    .CategoryAxis(axis => axis
+                        .Categories("1970", "1975", "1980", "1985", "1990", "1995", "2000", "2005", "2010")
+                        .MajorGridLines(lines => lines.Visible(false))
+                    )
+                    .ValueAxis(axis => axis
+                        .Numeric()
+                        .Labels(labels =>
+                            labels.Template("#= kendo.format('{0:N0}', value / 1000) # M")
+                        )
+                        .Line(line => line.Visible(false))
+                    )
+                    .Tooltip(tooltip => tooltip
+                        .Visible(true)
+                        .Template("#= series.stack.group #s, age #= series.name #")
+                    )
+        )
+    </div>
 
 

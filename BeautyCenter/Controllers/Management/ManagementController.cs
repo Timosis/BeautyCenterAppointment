@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BeautyCenter.Controllers.Report
+namespace BeautyCenter.Controllers.Management
 {
-    public class TaxReportController : Controller
+    public class ManagementController : Controller
     {
         public IActionResult Index()
         {

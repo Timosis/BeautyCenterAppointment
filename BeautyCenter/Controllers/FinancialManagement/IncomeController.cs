@@ -10,7 +10,17 @@ namespace BeautyCenter.Controllers.FinancialManagement
     {
         public IActionResult Index()
         {
-            return View();
+            return View("~/Views/FinancialManagement/Income/Index.cshtml");
+        }
+
+        public IActionResult Bills()
+        {
+            return View("~/Views/FinancialManagement/Income/Bills.cshtml");
+        }
+
+        public IActionResult Collections()
+        {
+            return View("~/Views/FinancialManagement/Income/Collections.cshtml");
         }
     }
 }
