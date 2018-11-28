@@ -1,8 +1,6 @@
 ﻿@model IEnumerable<BeautyCenter.Models.Customer.CustomerVm>
 @using Kendo.Mvc.UI
 
-
-
 <div class="m-portlet m-portlet--mobile">
     <div class="m-portlet__head">
         <div class="m-portlet__head-caption">
@@ -24,8 +22,6 @@
                 </li>
             </ul>
         </div>
-
-
     </div>
     <div class="m-portlet__body">
             @(Html.Kendo().Grid<BeautyCenter.Models.Customer.CustomerVm>()
@@ -38,7 +34,6 @@
                                             columns.Bound(p => p.Telephone);
                                             columns.Command(command => command.Custom("Güncelle").HtmlAttributes(new { @class = "btn btn-outline-success m-btn m-btn--custom m-btn--outline-2x" })).Width(180);
                                             columns.Command(command => command.Custom("Sil").HtmlAttributes(new { @class = "btn btn-outline-danger m-btn m-btn--custom m-btn--outline-2x" })).Width(180);
-
 
                                         })
                                         .Pageable()
@@ -56,10 +51,6 @@
                 )
     </div>
 </div>
-
-
-
-
 
 <script type="text/javascript">
     function error_handler(e) {
