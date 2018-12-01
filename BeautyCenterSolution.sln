@@ -13,23 +13,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.Client", "1.Client", "{BC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4.Common", "4.Common", "{70355E00-2ADA-4FFC-8219-0A774F6179E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeautyCenter.Business", "BeautyCenter.Business\BeautyCenter.Business.csproj", "{0149C2BD-8D03-4C88-9DCA-0CC681575A4B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeautyCenter.Business", "BeautyCenter.Business\BeautyCenter.Business.csproj", "{0149C2BD-8D03-4C88-9DCA-0CC681575A4B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeautyCenter.BusinessDomain", "BeautyCenter.BusinessDomain\BeautyCenter.BusinessDomain.csproj", "{398756FB-6814-4129-9A27-166D73F9D6A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeautyCenter.BusinessDomain", "BeautyCenter.BusinessDomain\BeautyCenter.BusinessDomain.csproj", "{398756FB-6814-4129-9A27-166D73F9D6A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeautyCenter.Data.Config", "BeautyCenter.Data.Config\BeautyCenter.Data.Config.csproj", "{F5A66209-FF19-4BCA-A3E8-1D4B93B353CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeautyCenter.Data.Config", "BeautyCenter.Data.Config\BeautyCenter.Data.Config.csproj", "{F5A66209-FF19-4BCA-A3E8-1D4B93B353CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeautyCenter.Data.Context", "BeautyCenter.Data.Context\BeautyCenter.Data.Context.csproj", "{E554C2C9-D905-4567-89F8-FFC6188984F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeautyCenter.Data.Context", "BeautyCenter.Data.Context\BeautyCenter.Data.Context.csproj", "{E554C2C9-D905-4567-89F8-FFC6188984F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeautyCenter.Data.DataService", "BeautyCenter.Data.DataService\BeautyCenter.Data.DataService.csproj", "{50634CF0-3B8C-4BE8-B54C-D986F988BB6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeautyCenter.Data.DataService", "BeautyCenter.Data.DataService\BeautyCenter.Data.DataService.csproj", "{50634CF0-3B8C-4BE8-B54C-D986F988BB6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeautyCenter.Data.Entities", "BeautyCenter.Data.Entities\BeautyCenter.Data.Entities.csproj", "{CDA2FDCC-61F1-45AD-92B2-EA73845ED280}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeautyCenter.Data.Entities", "BeautyCenter.Data.Entities\BeautyCenter.Data.Entities.csproj", "{CDA2FDCC-61F1-45AD-92B2-EA73845ED280}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeautyCenter.Common.Commands", "BeautyCenter.Common.Commands\BeautyCenter.Common.Commands.csproj", "{66148C5F-C4BF-41D3-8D0C-64F8BBC4F8FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeautyCenter.Common.Commands", "BeautyCenter.Common.Commands\BeautyCenter.Common.Commands.csproj", "{66148C5F-C4BF-41D3-8D0C-64F8BBC4F8FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeautyCenter.Common.Infra", "BeautyCenter.Common.Infra\BeautyCenter.Common.Infra.csproj", "{2AD611D0-9DA7-455C-8D93-74DAE27D9E9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeautyCenter.Common.Infra", "BeautyCenter.Common.Infra\BeautyCenter.Common.Infra.csproj", "{2AD611D0-9DA7-455C-8D93-74DAE27D9E9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeautyCenter.Common.Types", "BeautyCenter.Common.Types\BeautyCenter.Common.Types.csproj", "{1EE4C6A0-9339-4734-B05E-B90D602F9081}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeautyCenter.Common.Types", "BeautyCenter.Common.Types\BeautyCenter.Common.Types.csproj", "{1EE4C6A0-9339-4734-B05E-B90D602F9081}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

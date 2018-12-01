@@ -13,7 +13,7 @@
         <div class="m-portlet__head-tools">
             <ul class="m-portlet__nav">
                 <li class="m-portlet__nav-item">
-                    <a href="#" class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air">
+                    <a asp-controller="Customer" asp-action="Customer_Add" id="newCustomer" class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air" data-toggle="modal" data-target="#m_modal_4">
                         <span>
                             <i class="la la-plus"></i>
                             <span>New record</span>
@@ -53,6 +53,23 @@
 </div>
 
 <script type="text/javascript">
+    $(function () {
+        $("#newCustomer").click(function () {
+            var $buttonClicked = $(this);
+            $.ajax({
+                type: "GET",
+                url:"/Customer/Customer_Add",
+                contentType: "application/json; charset=utf-8",                
+                datatype: "json",
+                success: function (data) {
+                    $('#generalModal').html(data);
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+            });
+        });
+    });
     function error_handler(e) {
         if (e.errors) {
             var message = "Errors:\n";

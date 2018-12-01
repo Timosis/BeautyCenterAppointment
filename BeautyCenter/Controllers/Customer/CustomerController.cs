@@ -16,6 +16,11 @@ namespace BeautyCenter.Controllers
             return View();
         }
 
+        public IActionResult Customer_Add()
+        {
+            return PartialView("~/Views/Customer/AddCustomerPartial.cshtml");
+        }
+
         public IActionResult Customers_Read([DataSourceRequest] DataSourceRequest request)
         {
             List<CustomerVm> customers = new List<CustomerVm>()
