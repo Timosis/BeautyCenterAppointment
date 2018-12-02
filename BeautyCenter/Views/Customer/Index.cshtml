@@ -24,42 +24,90 @@
         </div>
     </div>
     <div class="m-portlet__body">
-            @(Html.Kendo().Grid<BeautyCenter.Models.Customer.CustomerVm>()
-                                        .Name("CustomerGrid")
-                                        .Columns(columns =>
-                                        {
-                                            columns.Bound(p => p.Firstname);
-                                            columns.Bound(p => p.Lastname);
-                                            columns.Bound(p => p.Email);
-                                            columns.Bound(p => p.Telephone);
-                                            columns.Command(command => command.Custom("Güncelle").HtmlAttributes(new { @class = "btn btn-outline-success m-btn m-btn--custom m-btn--outline-2x" })).Width(180);
-                                            columns.Command(command => command.Custom("Sil").HtmlAttributes(new { @class = "btn btn-outline-danger m-btn m-btn--custom m-btn--outline-2x" })).Width(180);
+        @(Html.Kendo().Grid<BeautyCenter.Models.Customer.CustomerVm>()
+                                                    .Name("CustomerGrid")
+                                                    .Columns(columns =>
+                                                    {
+                                                        columns.Bound(p => p.Firstname);
+                                                        columns.Bound(p => p.Lastname);
+                                                        columns.Bound(p => p.Email);
+                                                        columns.Bound(p => p.Telephone);
+                                                        columns.Command(command => command.Custom("Detay").Click("showCustomerDetail").HtmlAttributes(new { @class = "btn btn-outline-info m-btn m-btn--custom m-btn--outline-2x" })).Width(100);
+                                                        columns.Command(command => command.Custom("Güncelle").Click("customerUpdate").HtmlAttributes(new { @class = "btn btn-outline-success m-btn m-btn--custom m-btn--outline-2x", @id = "updateCommand", @data_toggle = "modal", @data_target= "#m_modal_4" })).Width(100);
+                                                        columns.Command(command => command.Custom("Sil").Click("showAlert").HtmlAttributes(new { @class = "btn btn-outline-danger m-btn m-btn--custom m-btn--outline-2x" })).Width(100);
 
-                                        })
-                                        .Pageable()
-                                        .Sortable()
-                                        .HtmlAttributes(new { @class= "table table-striped- table-bordered table-hover table-checkable" })
-                                        .DataSource(dataSource => dataSource
-                                            .Ajax()
-                                            .PageSize(20)
-                                            .Events(events => events.Error("error_handler"))
-                                            .Model(model => model.Id(p => p.Id))
-                                            .Read(read => read.Action("Customers_Read", "Customer"))
-                                            .Create(update => update.Action("EditingPopup_Create", "Grid"))
+                                                    })
+                                                    .Pageable()
+                                                    .Sortable()
+                                                    .HtmlAttributes(new { @class = "table table-striped- table-bordered table-hover table-checkable" })
+                                                    .DataSource(dataSource => dataSource
+                                                        .Ajax()
+                                                        .PageSize(20)
+                                                        .Events(events => events.Error("error_handler"))
+                                                        .Model(model => model.Id(p => p.Id))
+                                                        .Read(read => read.Action("Customers_Read", "Customer"))
+                                                        .Create(update => update.Action("EditingPopup_Create", "Grid"))
 
-                                        )
-                )
+                                                    )
+        )
     </div>
 </div>
 
 <script type="text/javascript">
+
+    function showCustomerDetail(e){
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+        var customerId = dataItem.Id;
+        window.location.href = "@Url.Action("CustomerDetail", "Customer")";
+
+    }
+
+    function showAlert(e) {
+        swal({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!',
+            heightAuto: false
+        }).then((result) => {
+            if (result.value) {
+                swal({
+                    confirmButtonText: 'Tamam',
+                    title:'Silindi!',
+                    heightAuto: false,
+                    type:'success'
+                })
+            }
+        })
+    }
+
+    function customerUpdate(e) {
+        e.preventDefault();
+        var $buttonClicked = $(this);
+        $.ajax({
+            type: "GET",
+            url: "/Customer/Customer_Update",
+            contentType: "application/json; charset=utf-8",
+            datatype: "json",
+            success: function (data) {
+                $('#generalModal').html(data);
+            },
+            error: function () {
+                alert("Dynamic content load failed.");
+            }
+        });
+    }
+
     $(function () {
-        $("#newCustomer").click(function () {
+        $("#updateCommand").click(function (e) {
             var $buttonClicked = $(this);
             $.ajax({
                 type: "GET",
-                url:"/Customer/Customer_Add",
-                contentType: "application/json; charset=utf-8",                
+                url: "/Customer/Customer_Update",
+                contentType: "application/json; charset=utf-8",
                 datatype: "json",
                 success: function (data) {
                     $('#generalModal').html(data);
@@ -70,6 +118,25 @@
             });
         });
     });
+
+    $(function () {
+        $("#newCustomer").click(function () {
+            var $buttonClicked = $(this);
+            $.ajax({
+                type: "GET",
+                url: "/Customer/Customer_Add",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                success: function (data) {
+                    $('#generalModal').html(data);
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+            });
+        });
+    });
+
     function error_handler(e) {
         if (e.errors) {
             var message = "Errors:\n";

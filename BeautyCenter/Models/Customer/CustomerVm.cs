@@ -26,9 +26,5 @@ namespace BeautyCenter.Models.Customer
             this.Email = Email;
             this.Telephone = Telephone;
         }
-
-
-
-
     }
 }

@@ -21,6 +21,11 @@ namespace BeautyCenter.Controllers
             return PartialView("~/Views/Customer/AddCustomerPartial.cshtml");
         }
 
+        public IActionResult Customer_Update()
+        {
+            return PartialView("~/Views/Customer/UpdateCustomerPartial.cshtml");
+        }
+
         public IActionResult Customers_Read([DataSourceRequest] DataSourceRequest request)
         {
             List<CustomerVm> customers = new List<CustomerVm>()
@@ -59,5 +64,11 @@ namespace BeautyCenter.Controllers
 
             return Json(new[] { newCustomer }.ToDataSourceResult(request, ModelState));
         }
+
+        public IActionResult CustomerDetail([DataSourceRequest] DataSourceRequest request)
+        {
+            return View("~/Views/Customer/CustomerDetail.cshtml");
+        }
+     
     }
 }
