@@ -1,0 +1,49 @@
+﻿<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Yeni Randevu</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+
+    <ul class="nav nav-pills nav-fill" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#m_tabs_5_1">Yeni Müşteri</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#m_tabs_5_2">Kayıtlı Müşteri</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div class="tab-pane active" id="m_tabs_5_1" role="tabpanel">
+            @(Html.Kendo().AutoComplete()
+                         .Name("customerAutoComplete")
+                         .DataTextField("Firstname ")
+                         .Filter("contains")
+                         .MinLength(3)
+                         .HtmlAttributes( new { @class = "form-control" })
+                         .DataSource(source =>
+                         {
+                             source
+                                 .Read(read =>
+                                 {
+                                     read.Action("GetCustomers", "Customer").Data("onAdditionalData");
+
+
+                                 })
+                                 .ServerFiltering(true);
+                         })
+            )
+
+        </div>
+        <div class="tab-pane" id="m_tabs_5_2" role="tabpanel">
+            <select class="form-control m-select2" id="m_select2_6" name="param">
+                <option></option>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+    <button type="button" class="btn btn-primary">Kaydet</button>
+</div>

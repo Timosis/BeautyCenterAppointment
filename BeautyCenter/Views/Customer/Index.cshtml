@@ -86,6 +86,7 @@
 
     function customerUpdate(e) {
         e.preventDefault();
+        debugger;
         var $buttonClicked = $(this);
         $.ajax({
             type: "GET",
@@ -104,6 +105,7 @@
     $(function () {
         $("#updateCommand").click(function (e) {
             var $buttonClicked = $(this);
+            debugger;
             $.ajax({
                 type: "GET",
                 url: "/Customer/Customer_Update",
@@ -121,6 +123,7 @@
 
     $(function () {
         $("#newCustomer").click(function () {
+            debugger;
             var $buttonClicked = $(this);
             $.ajax({
                 type: "GET",

@@ -1,6 +1,7 @@
 ﻿using BeautyCenter.Common.Infra.DataLayer;
 using BeautyCenter.Common.Infra.DataLayer.Entities;
 using BeautyCenter.Data.Context.UnitOfWork;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,7 +15,7 @@ namespace BeautyCenter.Data.Context
 
         public EntityFrameworkRepository(IDbFactory dbFactory) : base(dbFactory)
         {
-            dbContext = dbFactory.GetEgooLifeContext;
+            dbContext = dbFactory.GetBeautyCenterContext;
         }
 
         public virtual void Create<TEntity>(TEntity entity)

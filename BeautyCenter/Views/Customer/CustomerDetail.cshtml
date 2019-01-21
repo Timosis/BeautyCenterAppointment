@@ -1,1 +1,206 @@
-﻿
+﻿<div class="row">
+    <div class="col-xl-3 col-lg-4">
+        <div class="m-portlet m-portlet--full-height  ">
+            <div class="m-portlet__body">
+                <div class="m-card-profile">
+                    <div class="m-card-profile__title m--hide">
+                        Your Profile
+                    </div>
+                    <div class="m-card-profile__details">
+                        <span class="m-card-profile__name">Tümer Seyrek</span>
+                        <a href="" class="m-card-profile__email m-link">tumerseyrek@outlook.com</a>
+                    </div>
+                </div>
+                <div class="m-portlet__body-separator"></div>
+                <div class="m-widget1 m-widget1--paddingless">
+                    <div class="m-widget1__item">
+                        <div class="row m-row--no-padding align-items-center">
+                            <div class="col">
+                                <h3 class="m-widget1__title">Toplam İşlem Tutarı</h3>
+                            </div>
+                            <div class="col m--align-right">
+                                <span class="m-widget1__number m--font-brand">520.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-widget1__item">
+                        <div class="row m-row--no-padding align-items-center">
+                            <div class="col">
+                                <h3 class="m-widget1__title">Toplam Ödenen Tutar</h3>
+                            </div>
+                            <div class="col m--align-right">
+                                <span class="m-widget1__number m--font-success">520.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-widget1__item">
+                        <div class="row m-row--no-padding align-items-center">
+                            <div class="col">
+                                <h3 class="m-widget1__title">Kalan Tutar</h3>
+                            </div>
+                            <div class="col m--align-right">
+                                <span class="m-widget1__number m--font-danger">0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-9 col-lg-8">
+        <div class="m-portlet m-portlet--full-height m-portlet--tabs  ">
+            <div class="m-portlet__head">
+                <div class="m-portlet__head-tools">
+                    <ul class="nav nav-tabs m-tabs m-tabs-line   m-tabs-line--left m-tabs-line--primary" role="tablist">
+                        <li class="nav-item m-tabs__item">
+                            <a class="nav-link m-tabs__link active" data-toggle="tab" href="#m_user_profile_tab_1" role="tab">
+                                <i class="flaticon-share m--hide"></i>
+                                Randevular
+                            </a>
+                        </li>
+                        <li class="nav-item m-tabs__item">
+                            <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_2" role="tab">
+                                İşlemler
+                            </a>
+                        </li>
+                        <li class="nav-item m-tabs__item">
+                            <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_3" role="tab">
+                                Taksitler
+                            </a>
+                        </li>
+                        <li class="nav-item m-tabs__item">
+                            <a class="nav-link m-tabs__link" data-toggle="tab" href="#m_user_profile_tab_4" role="tab">
+                                Ödemeler
+                            </a>
+                        </li>
+                    </ul>
+                </div>                
+            </div>
+            <div class="tab-content">
+                <div class="tab-pane active" id="m_user_profile_tab_1">
+                    <form class="m-form m-form--fit m-form--label-align-right">
+                        <div class="m-portlet__body">
+
+                            @(Html.Kendo().Grid<BeautyCenter.Models.Customer.CustomerAppointmentsVm>()
+                                                            .Name("CustomerGridOne")
+                                                            .Columns(columns =>
+                                                            {
+                                                                columns.Bound(p => p.AppointmentDate);
+                                                                columns.Bound(p => p.Department);
+                                                                columns.Bound(p => p.Status);
+                                                            })
+                                                            .Pageable()
+                                                            .Sortable()
+                                                            .HtmlAttributes(new { @class = "table table-striped- table-bordered table-hover table-checkable" })
+                                                            .DataSource(dataSource => dataSource
+                                                                .Ajax()
+                                                                .PageSize(20)
+                                                                .Events(events => events.Error("error_handler"))
+                                                                .Model(model => model.Id(p => p.Id))
+                                                                .Read(read => read.Action("CustomerAppointments_Read", "Customer"))
+                                                            )
+                            )
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane " id="m_user_profile_tab_2">
+                    <form class="m-form m-form--fit m-form--label-align-right">
+                        <div class="m-portlet__body">
+
+                            @(Html.Kendo().Grid<BeautyCenter.Models.Customer.CustomerOperationsVm>()
+                                                                    .Name("CustomerGridtwo")
+                                                                    .Columns(columns =>
+                                                                    {
+                                                                        columns.Bound(p => p.Date);
+                                                                        columns.Bound(p => p.Department);
+                                                                        columns.Bound(p => p.SessionCount);
+                                                                        columns.Bound(p => p.IsInstallment);
+                                                                        columns.Bound(p => p.Amount);
+                                                                        columns.Bound(p => p.IsPaid);
+                                                                    })
+                                                                    .Pageable()
+                                                                    .Sortable()
+                                                                    .HtmlAttributes(new { @class = "table table-striped- table-bordered table-hover table-checkable" })
+                                                                    .DataSource(dataSource => dataSource
+                                                                        .Ajax()
+                                                                        .PageSize(20)
+                                                                        .Events(events => events.Error("error_handler"))
+                                                                        .Model(model => model.Id(p => p.Id))
+                                                                        .Read(read => read.Action("CustomerOperations_Read", "Customer"))
+                                                                    )
+                            )
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane " id="m_user_profile_tab_3">
+                    <form class="m-form m-form--fit m-form--label-align-right">
+                        <div class="m-portlet__body">
+
+                            @(Html.Kendo().Grid<BeautyCenter.Models.Customer.CustomerInstallmentVm>()
+                                                                    .Name("CustomerGridthree")
+                                                                    .Columns(columns =>
+                                                                    {
+                                                                        columns.Bound(p => p.InstallmentDate);
+                                                                        columns.Bound(p => p.InstallmentNumber);
+                                                                        columns.Bound(p => p.IsPaid);
+                                                                    })
+                                                                    .Pageable()
+                                                                    .Sortable()
+                                                                    .HtmlAttributes(new { @class = "table table-striped- table-bordered table-hover table-checkable" })
+                                                                    .DataSource(dataSource => dataSource
+                                                                        .Ajax()
+                                                                        .PageSize(20)
+                                                                        .Events(events => events.Error("error_handler"))
+                                                                        .Model(model => model.Id(p => p.Id))
+                                                                        .Read(read => read.Action("CustomerInstallment_Read", "Customer"))
+                                                                    )
+                            )
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane " id="m_user_profile_tab_4">
+                    <form class="m-form m-form--fit m-form--label-align-right">
+                        <div class="m-portlet__body">
+
+                            @(Html.Kendo().Grid<BeautyCenter.Models.Customer.CustomerPaymentsVm>()
+                                                                    .Name("CustomerGridfour")
+                                                                    .Columns(columns =>
+                                                                    {
+                                                                        columns.Bound(p => p.DateTime);
+                                                                        columns.Bound(p => p.PaymentType);
+                                                                        columns.Bound(p => p.PaymentAmount);
+                                                                    })
+                                                                    .Pageable()
+                                                                    .Sortable()
+                                                                    .HtmlAttributes(new { @class = "table table-striped- table-bordered table-hover table-checkable" })
+                                                                    .DataSource(dataSource => dataSource
+                                                                        .Ajax()
+                                                                        .PageSize(20)
+                                                                        .Events(events => events.Error("error_handler"))
+                                                                        .Model(model => model.Id(p => p.Id))
+                                                                        .Read(read => read.Action("CustomerPayments_Read", "Customer"))
+                                                                    )
+                            )
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+      function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>

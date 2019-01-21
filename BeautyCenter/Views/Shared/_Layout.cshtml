@@ -33,18 +33,16 @@
     <link href="~/lib/theme/assets/vendors/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
 
     <script src="~/lib/theme/assets/vendors/base/vendors.bundle.js" type="text/javascript"></script>
-    <script src="~/lib/theme/assets/demo/demo12/base/scripts.bundle.js" type="text/javascript"></script>
 
     <!--RTL version:<link href="assets/vendors/custom/fullcalendar/fullcalendar.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
     <!--end::Page Vendors Styles -->
     <link rel="shortcut icon" href="~/lib/theme/assets/demo/demo12/media/img/logo/favicon.ico" />
     <script src="~/lib/kendo-ui/js/jquery.min.js"></script>
-
+    <script src="~/lib/theme/assets/vendors/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/lib/kendo-ui/js/kendo.all.min.js"></script>
     <script src="~/lib/kendo-ui/js/kendo.aspnetmvc.min.js"></script>
 
     <script src="~/lib/kendo-ui/js/cultures/kendo.culture.tr-TR.min.js"></script>
-    <script src="~/lib/kendo-ui/js/kendo.scheduler.min.js"></script>
     <script src="~/lib/theme/assets/demo/demo12/base/sweetalert2.all.min.js"></script>
 
 </head>
@@ -304,11 +302,14 @@
 
     </div>
 
-    <!--end::Global Theme Bundle -->
-    <!--begin::Page Vendors -->
-    <!--end::Page Vendors -->
-    <!--begin::Page Scripts -->
+
     @RenderSection("Scripts", required: false)
+
+
+    <script src="~/lib/theme/assets/demo/demo12/custom/components/base/scripts.bundle.js"></script>
+    <script src="~/lib/theme/assets/vendors/custom/fullcalendar/fullcalendar.bundle.js"></script>
+    <script src="~/lib/theme/assets/demo/demo12/custom/components/calendar/tr.js"></script>
+    <script src="~/js/Appointment.js"></script>
 
 </body>
 </html>
