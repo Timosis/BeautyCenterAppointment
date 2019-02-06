@@ -8,42 +8,106 @@
 
     <ul class="nav nav-pills nav-fill" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#m_tabs_5_1">Yeni Müşteri</a>
+            <a class="nav-link active" data-toggle="tab" href="#m_tabs_5_1">Kayıtlı Müşteri</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#m_tabs_5_2">Kayıtlı Müşteri</a>
+            <a class="nav-link" data-toggle="tab" href="#m_tabs_5_2">Yeni Müşteri</a>
         </li>
     </ul>
+
     <div class="tab-content">
         <div class="tab-pane active" id="m_tabs_5_1" role="tabpanel">
-            @(Html.Kendo().AutoComplete()
-                         .Name("customerAutoComplete")
-                         .DataTextField("Firstname ")
-                         .Filter("contains")
-                         .MinLength(3)
-                         .HtmlAttributes( new { @class = "form-control" })
-                         .DataSource(source =>
-                         {
-                             source
-                                 .Read(read =>
-                                 {
-                                     read.Action("GetCustomers", "Customer").Data("onAdditionalData");
-
-
-                                 })
-                                 .ServerFiltering(true);
-                         })
-            )
-
+            <form>
+                <div class="form-group">
+                    <label for="recipient-name" class="form-control-label">Müşteri Arama</label><br />
+                    <select id="autocomplete" class="form-control" style="width: 100%"></select>
+                </div>
+                <div class="form-group">
+                    <label for="message-text" class="form-control-label">Tarih</label>
+                    <input type="text" class="form-control" id="DatetimepickerForNewAppointment" readonly placeholder="Tarih Seçiniz" />
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="form-control-label">Birim</label>
+                    <input type="text" class="form-control" id="department" placeholder="Birim Seçiniz">
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="form-control-label">Açıklama</label>
+                    <input type="text" class="form-control" id="description" placeholder="Açıklama Giriniz">
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="form-control-label">Personel Not</label>
+                    <input type="text" class="form-control" id="personeldescription" placeholder="Personel Notu Giriniz">
+                </div>
+            </form>
         </div>
         <div class="tab-pane" id="m_tabs_5_2" role="tabpanel">
-            <select class="form-control m-select2" id="m_select2_6" name="param">
-                <option></option>
-            </select>
+            <form>
+                <div class="form-group">
+                    <label for="recipient-name" class="form-control-label">Ad</label>
+                    <input type="text" class="form-control" id="firstname" placeholder="Ad Giriniz">
+                </div>
+                <div class="form-group">
+                    <label for="recipient-name" class="form-control-label">Soyad</label>
+                    <input type="text" class="form-control" id="lastname" placeholder="Soyad Giriniz">
+                </div>
+                <div class="form-group">
+                    <label for="message-text" class="form-control-label">Tarih</label>
+                    <input type="text" class="form-control" id="DatetimepickerForNewCustomer" readonly placeholder="Tarih Seçiniz" />
+                </div>
+            </form>
         </div>
     </div>
+
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
     <button type="button" class="btn btn-primary">Kaydet</button>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#DatetimepickerForNewAppointment').datetimepicker({
+            autoclose: true,
+            format: 'dd/mm/yyyy hh:ii',
+            language: 'tr',
+        }).on('changeDate', function (ev) {
+            $(this).datetimepicker('hide');
+            });
+
+        $('#DatetimepickerForNewCustomer').datetimepicker({
+            autoclose: true,
+            format: 'dd/mm/yyyy hh:ii',
+            language: 'tr',
+        }).on('changeDate', function (ev) {
+            $(this).datetimepicker('hide');
+            });
+
+        $('#autocomplete').select2({
+            placeholder: "Ad Giriniz...",
+            minimumInputLength: 3,
+            ajax: {
+                type: 'POST',
+                url: '/Customer/GetCustomers',
+                dataType: 'json',
+                data: function (params) {
+                    return {
+                        text: params.term 
+                    };
+                },
+                processResults: function (reponse) {                    
+                    return {
+                        results: $.map(reponse, function (obj) {
+                            return { id: obj.id, text: obj.Firstname + " " + obj.Lastname }
+                        })
+                    };
+                },
+                formatSelection: function (element) {
+                    return element.text + ' (' + element.id + ')';
+                },
+            }
+        });
+    });
+</script>
+
+

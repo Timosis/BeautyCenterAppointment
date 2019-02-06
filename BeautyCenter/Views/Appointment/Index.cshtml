@@ -11,7 +11,7 @@
         <div class="m-portlet__head-tools">
             <ul class="m-portlet__nav">
                 <li class="m-portlet__nav-item">
-                    <a asp-controller="Appointment" asp-action="Appointment_Add" id="newAppointment" class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air" data-toggle="modal" data-target="#m_modal_4">
+                    <a asp-controller="Appointment" asp-action="Appointment_Add" id="newAppointment" class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air" data-toggle="modal" data-target="#m_modal_general">
                         <span>
                             <i class="la la-plus"></i>
                             <span>Yeni Randevu</span>
@@ -28,32 +28,22 @@
 
 <script type="text/javascript">
 
-
-    $(function () {
-        $("#newAppointment").click(function () {
-            var $buttonClicked = $(this);
-            $.ajax({
-                type: "GET",
-                url: "/Appointment/Appointment_Add",
-                contentType: "application/json; charset=utf-8",
-                datatype: "json",
-                success: function (data) {
-                    $('#generalModal').html(data);
-                    onAdditionalData();
-                },
-                error: function () {
-                    alert("Dynamic content load failed.");
-                }
+  $(function () {
+            $("#newAppointment").click(function () {
+                var $buttonClicked = $(this);
+                $.ajax({
+                    type: "GET",
+                    url: "/Appointment/Appointment_Add",
+                    contentType: "application/json; charset=utf-8",
+                    datatype: "json",
+                    success: function (data) {
+                        $('#generalModal').html(data);
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
             });
+
         });
-    });
-
-
-    function onAdditionalData() {
-        return {
-            text: $("#customerAutoComplete").val()
-        };
-    }
-
-
 </script>

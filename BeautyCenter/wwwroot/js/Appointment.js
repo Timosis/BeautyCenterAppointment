@@ -20,7 +20,6 @@
                         success: function (result) {
                             var events = [];
                             $.each(result, function (i, data) {
-                                debugger;
                                 events.push(
                                     {
                                         title: data.Title,

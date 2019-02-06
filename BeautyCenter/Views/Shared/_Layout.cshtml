@@ -15,48 +15,19 @@
     <title>@ViewData["Title"] - BeautyCenter</title>
 
 
-
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/kendo-ui/styles/kendo.common-material.min.css" />
-        <link rel="stylesheet" href="~/lib/kendo-ui/styles/kendo.material.min.css" />
+        <link href="~/css/site.css" rel="stylesheet" />
     </environment>
+    <link href="~/lib/theme/assets/vendors/base/vendors.bundle.css" rel="stylesheet" />
+    <link href="~/lib/theme/assets/demo/demo12/base/style.bundle.css" rel="stylesheet" />
+    <link href="~/lib/theme/assets/vendors/custom/datatables/datatables.bundle.css" rel="stylesheet" />
+    <link href="~/lib/theme/assets/vendors/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" />
+    <script src="~/lib/theme/assets/vendors/base/vendors.bundle.js"></script>
 
-    <!--begin::Global Theme Styles -->
-    <link href="~/lib/theme/assets/vendors/base/vendors.bundle.css" rel="stylesheet" type="text/css" />
-
-    <!--RTL version:<link href="assets/vendors/base/vendors.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
-    <link href="~/lib/theme/assets/demo/demo12/base/style.bundle.css" rel="stylesheet" type="text/css" />
-
-    <!--RTL version:<link href="assets/demo/demo12/base/style.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
-    <!--end::Global Theme Styles -->
-    <!--begin::Page Vendors Styles -->
-    <link href="~/lib/theme/assets/vendors/custom/fullcalendar/fullcalendar.bundle.css" rel="stylesheet" type="text/css" />
-
-    <script src="~/lib/theme/assets/vendors/base/vendors.bundle.js" type="text/javascript"></script>
-
-    <!--RTL version:<link href="assets/vendors/custom/fullcalendar/fullcalendar.bundle.rtl.css" rel="stylesheet" type="text/css" />-->
-    <!--end::Page Vendors Styles -->
-    <link rel="shortcut icon" href="~/lib/theme/assets/demo/demo12/media/img/logo/favicon.ico" />
-    <script src="~/lib/kendo-ui/js/jquery.min.js"></script>
-    <script src="~/lib/theme/assets/vendors/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="~/lib/kendo-ui/js/kendo.all.min.js"></script>
-    <script src="~/lib/kendo-ui/js/kendo.aspnetmvc.min.js"></script>
-
-    <script src="~/lib/kendo-ui/js/cultures/kendo.culture.tr-TR.min.js"></script>
-    <script src="~/lib/theme/assets/demo/demo12/base/sweetalert2.all.min.js"></script>
 
 </head>
 <body class="class=" m-page--fluid m--skin- m-content--skin-light2 m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-dark m-aside-left--offcanvas m-footer--push m-aside--offcanvas-default"">
 
-
-    <div class="modal fade" id="m_modal_4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div id="generalModal" class="modal-content">
-
-
-            </div>
-        </div>
-    </div>
 
     <div class="m-grid m-grid--hor m-grid--root m-page">
         <header id="m_header" class="m-grid__item    m-header " m-minimize-offset="200" m-minimize-mobile-offset="200">
@@ -298,17 +269,29 @@
                     @RenderBody()
                 </div>
             </div>
-        </div>
 
+            <div class="modal fade" id="m_modal_general">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div id="generalModal" class="modal-content">
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 
 
     @RenderSection("Scripts", required: false)
 
 
-    <script src="~/lib/theme/assets/demo/demo12/custom/components/base/scripts.bundle.js"></script>
+    <script src="~/lib/theme/assets/demo/demo12/base/scripts.bundle.js"></script>
+    <script src="~/lib/theme/assets/vendors/custom/datatables/datatables.bundle.js"></script>
     <script src="~/lib/theme/assets/vendors/custom/fullcalendar/fullcalendar.bundle.js"></script>
     <script src="~/lib/theme/assets/demo/demo12/custom/components/calendar/tr.js"></script>
+    <script src="~/js/bootstrap-datepicker.tr.js"></script>
+    <script src="~/lib/theme/assets/vendors/bootstrap-datetime-picker/js/locales/bootstrap-datetimepicker.tr.js"></script>
     <script src="~/js/Appointment.js"></script>
 
 </body>

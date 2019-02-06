@@ -81,25 +81,7 @@
                     <form class="m-form m-form--fit m-form--label-align-right">
                         <div class="m-portlet__body">
 
-                            @(Html.Kendo().Grid<BeautyCenter.Models.Customer.CustomerAppointmentsVm>()
-                                                            .Name("CustomerGridOne")
-                                                            .Columns(columns =>
-                                                            {
-                                                                columns.Bound(p => p.AppointmentDate);
-                                                                columns.Bound(p => p.Department);
-                                                                columns.Bound(p => p.Status);
-                                                            })
-                                                            .Pageable()
-                                                            .Sortable()
-                                                            .HtmlAttributes(new { @class = "table table-striped- table-bordered table-hover table-checkable" })
-                                                            .DataSource(dataSource => dataSource
-                                                                .Ajax()
-                                                                .PageSize(20)
-                                                                .Events(events => events.Error("error_handler"))
-                                                                .Model(model => model.Id(p => p.Id))
-                                                                .Read(read => read.Action("CustomerAppointments_Read", "Customer"))
-                                                            )
-                            )
+
                         </div>
                     </form>
                 </div>
@@ -107,28 +89,6 @@
                     <form class="m-form m-form--fit m-form--label-align-right">
                         <div class="m-portlet__body">
 
-                            @(Html.Kendo().Grid<BeautyCenter.Models.Customer.CustomerOperationsVm>()
-                                                                    .Name("CustomerGridtwo")
-                                                                    .Columns(columns =>
-                                                                    {
-                                                                        columns.Bound(p => p.Date);
-                                                                        columns.Bound(p => p.Department);
-                                                                        columns.Bound(p => p.SessionCount);
-                                                                        columns.Bound(p => p.IsInstallment);
-                                                                        columns.Bound(p => p.Amount);
-                                                                        columns.Bound(p => p.IsPaid);
-                                                                    })
-                                                                    .Pageable()
-                                                                    .Sortable()
-                                                                    .HtmlAttributes(new { @class = "table table-striped- table-bordered table-hover table-checkable" })
-                                                                    .DataSource(dataSource => dataSource
-                                                                        .Ajax()
-                                                                        .PageSize(20)
-                                                                        .Events(events => events.Error("error_handler"))
-                                                                        .Model(model => model.Id(p => p.Id))
-                                                                        .Read(read => read.Action("CustomerOperations_Read", "Customer"))
-                                                                    )
-                            )
                         </div>
                     </form>
                 </div>
@@ -136,25 +96,6 @@
                     <form class="m-form m-form--fit m-form--label-align-right">
                         <div class="m-portlet__body">
 
-                            @(Html.Kendo().Grid<BeautyCenter.Models.Customer.CustomerInstallmentVm>()
-                                                                    .Name("CustomerGridthree")
-                                                                    .Columns(columns =>
-                                                                    {
-                                                                        columns.Bound(p => p.InstallmentDate);
-                                                                        columns.Bound(p => p.InstallmentNumber);
-                                                                        columns.Bound(p => p.IsPaid);
-                                                                    })
-                                                                    .Pageable()
-                                                                    .Sortable()
-                                                                    .HtmlAttributes(new { @class = "table table-striped- table-bordered table-hover table-checkable" })
-                                                                    .DataSource(dataSource => dataSource
-                                                                        .Ajax()
-                                                                        .PageSize(20)
-                                                                        .Events(events => events.Error("error_handler"))
-                                                                        .Model(model => model.Id(p => p.Id))
-                                                                        .Read(read => read.Action("CustomerInstallment_Read", "Customer"))
-                                                                    )
-                            )
                         </div>
                     </form>
                 </div>
@@ -162,25 +103,7 @@
                     <form class="m-form m-form--fit m-form--label-align-right">
                         <div class="m-portlet__body">
 
-                            @(Html.Kendo().Grid<BeautyCenter.Models.Customer.CustomerPaymentsVm>()
-                                                                    .Name("CustomerGridfour")
-                                                                    .Columns(columns =>
-                                                                    {
-                                                                        columns.Bound(p => p.DateTime);
-                                                                        columns.Bound(p => p.PaymentType);
-                                                                        columns.Bound(p => p.PaymentAmount);
-                                                                    })
-                                                                    .Pageable()
-                                                                    .Sortable()
-                                                                    .HtmlAttributes(new { @class = "table table-striped- table-bordered table-hover table-checkable" })
-                                                                    .DataSource(dataSource => dataSource
-                                                                        .Ajax()
-                                                                        .PageSize(20)
-                                                                        .Events(events => events.Error("error_handler"))
-                                                                        .Model(model => model.Id(p => p.Id))
-                                                                        .Read(read => read.Action("CustomerPayments_Read", "Customer"))
-                                                                    )
-                            )
+
                         </div>
                     </form>
                 </div>
@@ -189,18 +112,3 @@
     </div>
 </div>
 
-<script>
-      function error_handler(e) {
-        if (e.errors) {
-            var message = "Errors:\n";
-            $.each(e.errors, function (key, value) {
-                if ('errors' in value) {
-                    $.each(value.errors, function () {
-                        message += this + "\n";
-                    });
-                }
-            });
-            alert(message);
-        }
-    }
-</script>

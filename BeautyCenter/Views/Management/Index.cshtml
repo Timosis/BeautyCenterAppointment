@@ -1,7 +1,40 @@
-﻿
-@{
-    ViewData["Title"] = "Index";
-}
+﻿<table id='directory_table' class="display">
+    <thead>
+        <tr>
+            <th>Kayıt Numarası</th>
+            <th>Kayıt Tarihi</th>
+            <th>Ad</th>
+            <th>Soyad</th>
+            <th>Email</th>
+            <th>Cep Telefonu</th>
+            <th>İşlemler</th>
 
-<h2>Index</h2>
+        </tr>
+    </thead>
+</table>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#directory_table').dataTable({
+            "ajax": {
+                "url": "/Customer/Customers_Read/",
+                "dataSrc": ""
+            },
+            "columns": [
+                { "data": "Id" },
+                { "data": "RegisteredDate" },
+                { "data": "Firstname" },
+                { "data": "Lastname" },
+                { "data": "Email" },
+                { "data": "Telephone" }
+            ],
+            "columnDefs": [{
+                "targets": -1,
+                "data": null,
+                "defaultContent": "<button>Click!</button>"
+            }]
+        });
+    });
+</script>
 
