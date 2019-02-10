@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BeautyCenter.Common.Utils;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +12,7 @@ namespace BeautyCenter.Models.Customer
 
         public int Id { get; set; }
 
+        [JsonConverter(typeof(DateTimeFormatHelper), "dd/MM/yyyy HH:mm")]
         public DateTime RegisteredDate { get; set; }
 
         public string Firstname { get; set; }

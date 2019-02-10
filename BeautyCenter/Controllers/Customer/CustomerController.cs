@@ -42,36 +42,36 @@ namespace BeautyCenter.Controllers
         }
 
         [AcceptVerbs("Post")]
-        public ActionResult Customer_Create([DataSourceRequest] DataSourceRequest request, CustomerVm customer)
+        public ActionResult Customer_Create(CustomerVm customer)
         {
          
             CustomerVm newCustomer = new CustomerVm(1, GenerateRandomDateTime.GenerateStartDate(), customer.Firstname, customer.Lastname, customer.Email, customer.Telephone);
 
-            return Json(new[] { newCustomer }.ToDataSourceResult(request, ModelState));
+            return Json(new[] { newCustomer });
         }
 
         [AcceptVerbs("Post")]
-        public ActionResult Customer_Update([DataSourceRequest] DataSourceRequest request, CustomerVm customer)
+        public ActionResult Customer_Update(CustomerVm customer)
         {
             CustomerVm newCustomer = new CustomerVm(1, GenerateRandomDateTime.GenerateStartDate(), customer.Firstname, customer.Lastname, customer.Email, customer.Telephone);
             
-            return Json(new[] { newCustomer }.ToDataSourceResult(request, ModelState));
+            return Json(new[] { newCustomer });
         }
 
         [AcceptVerbs("Post")]
-        public ActionResult Customer_Destroy([DataSourceRequest] DataSourceRequest request, CustomerVm customer)
+        public ActionResult Customer_Destroy(CustomerVm customer)
         {
             CustomerVm newCustomer = new CustomerVm(1,GenerateRandomDateTime.GenerateStartDate(), customer.Firstname, customer.Lastname, customer.Email, customer.Telephone);
 
-            return Json(new[] { newCustomer }.ToDataSourceResult(request, ModelState));
+            return Json(new[] { newCustomer });
         }
 
-        public IActionResult CustomerDetail([DataSourceRequest] DataSourceRequest request)
+        public IActionResult CustomerDetail()
         {
             return View("~/Views/Customer/CustomerDetail.cshtml");
         }
 
-        public IActionResult CustomerAppointments_Read([DataSourceRequest] DataSourceRequest request)
+        public IActionResult CustomerAppointments_Read()
         {
             DateTime time = new DateTime(2018, 4, 21,12,38,45);
             
@@ -83,29 +83,29 @@ namespace BeautyCenter.Controllers
                 new CustomerAppointmentsVm(4,time,"Epilasyon",Status.canceled),
                 new CustomerAppointmentsVm(5,time,"Epilasyon",Status.came)
             };
-            return Json(customers.ToDataSourceResult(request));
+            return Json(customers);
         }
 
-        public IActionResult CustomerOperations_Read([DataSourceRequest] DataSourceRequest request)
+        public IActionResult CustomerOperations_Read()
         {
             DateTime time = new DateTime(2018, 4, 21, 12, 38, 45);
 
 
             List<CustomerOperationsVm> customerOperations = new List<CustomerOperationsVm>
             {
-                new CustomerOperationsVm(1,time,"Lazer Epilasyon",5,200.45M,true,true),
-                new CustomerOperationsVm(2,time,"Lazer Epilasyon",6,200.45M,true,true),
-                new CustomerOperationsVm(3,time,"Lazer Epilasyon",7,200.45M,true,true),
-                new CustomerOperationsVm(3,time,"Lazer Epilasyon",8,200.45M,true,true),
-                new CustomerOperationsVm(3,time,"Lazer Epilasyon",9,200.45M,true,true),
-                new CustomerOperationsVm(3,time,"Lazer Epilasyon",10,200.45M,true,true)
+                new CustomerOperationsVm(1,time,"Lazer Epilasyon",5,200.45,true,true),
+                new CustomerOperationsVm(2,time,"Lazer Epilasyon",6,200.45,true,true),
+                new CustomerOperationsVm(3,time,"Lazer Epilasyon",7,200.45,true,true),
+                new CustomerOperationsVm(3,time,"Lazer Epilasyon",8,200.45,true,true),
+                new CustomerOperationsVm(3,time,"Lazer Epilasyon",9,200.45,true,true),
+                new CustomerOperationsVm(3,time,"Lazer Epilasyon",10,200.45,true,true)
             };
 
 
-            return Json(customerOperations.ToDataSourceResult(request));
+            return Json(customerOperations);
         }
 
-        public IActionResult CustomerInstallment_Read([DataSourceRequest] DataSourceRequest request)
+        public IActionResult CustomerInstallment_Read()
         {
             DateTime time = new DateTime(2018, 4, 21, 12, 38, 45);
 
@@ -118,24 +118,23 @@ namespace BeautyCenter.Controllers
                 new CustomerInstallmentVm(5,time,5,false),
 
             };
-            return Json(customerInstallments.ToDataSourceResult(request));
+            return Json(customerInstallments);
         }
 
-        public IActionResult CustomerPayments_Read([DataSourceRequest] DataSourceRequest request)
+        public IActionResult CustomerPayments_Read()
         {
             DateTime time = new DateTime(2018, 4, 21, 12, 38, 45);
 
             List<CustomerPaymentsVm> customerPayments = new List<CustomerPaymentsVm>
             {
-                new CustomerPaymentsVm(1,time,PaymentType.cash,200.45M),
-                new CustomerPaymentsVm(2,time,PaymentType.cash,320.45M),
-                new CustomerPaymentsVm(3,time,PaymentType.Card,340.45M),
-                new CustomerPaymentsVm(4,time,PaymentType.Card,540.45M),
-                new CustomerPaymentsVm(5,time,PaymentType.Card,640.45M),
+                new CustomerPaymentsVm(1,time,PaymentType.Cash,200.45),
+                new CustomerPaymentsVm(2,time,PaymentType.BankOrCreditCard,320.45),
+                new CustomerPaymentsVm(3,time,PaymentType.InstallmentToCreditCard,340.45),
+                new CustomerPaymentsVm(4,time,PaymentType.InstallmentToDeliveryByHand,540.45),
+                new CustomerPaymentsVm(5,time,PaymentType.Cash,640.45),
             };
 
-
-            return Json(customerPayments.ToDataSourceResult(request));
+            return Json(customerPayments);
         }
 
         public JsonResult GetCustomers(string text)

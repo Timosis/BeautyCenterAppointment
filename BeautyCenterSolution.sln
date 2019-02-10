@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeautyCenter.Common.Infra",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeautyCenter.Common.Types", "BeautyCenter.Common.Types\BeautyCenter.Common.Types.csproj", "{1EE4C6A0-9339-4734-B05E-B90D602F9081}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeautyCenter.Common.Utils", "BeautyCenter.Common.Utils\BeautyCenter.Common.Utils.csproj", "{3557FEF6-0C5E-4A0F-8178-BC1F9CC76887}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,6 +79,10 @@ Global
 		{1EE4C6A0-9339-4734-B05E-B90D602F9081}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1EE4C6A0-9339-4734-B05E-B90D602F9081}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1EE4C6A0-9339-4734-B05E-B90D602F9081}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3557FEF6-0C5E-4A0F-8178-BC1F9CC76887}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3557FEF6-0C5E-4A0F-8178-BC1F9CC76887}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3557FEF6-0C5E-4A0F-8178-BC1F9CC76887}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3557FEF6-0C5E-4A0F-8178-BC1F9CC76887}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -92,6 +98,7 @@ Global
 		{66148C5F-C4BF-41D3-8D0C-64F8BBC4F8FB} = {70355E00-2ADA-4FFC-8219-0A774F6179E2}
 		{2AD611D0-9DA7-455C-8D93-74DAE27D9E9F} = {70355E00-2ADA-4FFC-8219-0A774F6179E2}
 		{1EE4C6A0-9339-4734-B05E-B90D602F9081} = {70355E00-2ADA-4FFC-8219-0A774F6179E2}
+		{3557FEF6-0C5E-4A0F-8178-BC1F9CC76887} = {70355E00-2ADA-4FFC-8219-0A774F6179E2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C22A4B14-2777-4726-9D0C-BC408C553AF7}

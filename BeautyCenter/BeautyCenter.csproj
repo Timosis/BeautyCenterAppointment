@@ -13,6 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BeautyCenter.Common.Utils\BeautyCenter.Common.Utils.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="Views\FinancialManagement\Bank\Index.cshtml">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <Pack>$(IncludeRazorContentInPack)</Pack>
