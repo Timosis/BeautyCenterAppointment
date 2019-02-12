@@ -30,7 +30,8 @@ namespace BeautyCenter.Models.Customer
 
     public enum Status
     {
-        canceled = 1,
-        came = 2
+        Canceled = 1,
+        Came = 2,
+        Active = 3        
     }
 }

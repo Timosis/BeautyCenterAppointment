@@ -194,7 +194,15 @@
                     {
                         "data": "Status",
                         "render": function (data, type, row) {
-                            return (data == true) ? '<i class="fa fa-check-circle m--font-success"> Geldi </i>' : '<i class="fa fa-times-circle m--font-danger"> İptal</i>';
+                            if (data == 1) {
+                                return '<i class="fa fa-check-circle m--font-success"> Geldi </i>'
+                            }
+                            if (data == 2) {
+                                return '<i class="fa fa-times-circle m--font-danger"> İptal</i>';
+                            }
+                            if (data == 3) {
+                                return '<i class="fas fa-hourglass m--font-info"> Aktif </i>';
+                            }
                         }
 
                     }
@@ -215,17 +223,22 @@
                     { "data": "Date" },
                     { "data": "Department" },
                     { "data": "SessionCount" },
-                    { "data": "Amount" },
+                    {
+                        "data": "Amount",
+                        "render":function(data, type, row) {
+                            return data + ' <i class="fas fa-lira-sign fa-1x"></i>';
+                        }
+                    },
                     {
                         "data": "IsPaid",
                         "render": function (data, type, row) {
-                            return (data == true) ? '<i class="fa fa-check-circle m--font-success"> Ödendi </i>' : '<i class="fa fa-times-circle m--font-danger"> Ödenmedi</i>';
+                            return (data == true) ? '<i class="fa fa-check-circle m--font-success"> Ödendi </i>' : '<i class="fa fa-minus-circle m--font-danger"> Ödenmedi</i>';
                         }
                     },
                     {
                         "data": "IsInstallment",
                         "render": function (data, type, row) {
-                            return (data == true) ? '<i class="fa fa-check-circle m--font-success"> Ödendi </i>' : '<i class="fa fa-times-circle m--font-danger"> Ödenmedi</i>';
+                            return (data == true) ? '<i class="fa fa-check-circle m--font-success"> Ödendi </i>' : '<i class="fa fa-minus-circle m--font-danger"> Ödenmedi</i>';
                         }
                     }
                 ]
@@ -244,7 +257,12 @@
                 "columns": [
                     { "data": "InstallmentDate" },
                     { "data": "InstallmentNumber" },
-                    { "data": "IsPaid" }
+                    {
+                        "data": "IsPaid",
+                        "render": function (data, type, row) {
+                            return (data == true) ? '<i class="fa fa-check-circle m--font-success"> Ödendi </i>' : '<i class="fa fa-minus-circle m--font-danger"> Beklemede </i>';
+                        }
+                    }
                 ]
             });
         }

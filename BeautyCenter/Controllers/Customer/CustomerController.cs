@@ -77,11 +77,13 @@ namespace BeautyCenter.Controllers
             
             List<CustomerAppointmentsVm> customers = new List<CustomerAppointmentsVm>()
             {
-                new CustomerAppointmentsVm(1,time,"Epilasyon",Status.came),
-                new CustomerAppointmentsVm(2,time,"Epilasyon",Status.canceled),
-                new CustomerAppointmentsVm(3,time,"Epilasyon",Status.came),
-                new CustomerAppointmentsVm(4,time,"Epilasyon",Status.canceled),
-                new CustomerAppointmentsVm(5,time,"Epilasyon",Status.came)
+                new CustomerAppointmentsVm(1,time,"Epilasyon",Status.Came),
+                new CustomerAppointmentsVm(2,time,"Epilasyon",Status.Canceled),
+                new CustomerAppointmentsVm(3,time,"Epilasyon",Status.Came),
+                new CustomerAppointmentsVm(4,time,"Epilasyon",Status.Canceled),
+                new CustomerAppointmentsVm(5,time,"Epilasyon",Status.Came),
+                new CustomerAppointmentsVm(6,time,"Epilasyon",Status.Active),
+                new CustomerAppointmentsVm(7,time,"Epilasyon",Status.Active)
             };
             return Json(customers);
         }
