@@ -1,7 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BeautyCenter.BusinessDomain\BeautyCenter.BusinessDomain.csproj" />
+    <ProjectReference Include="..\BeautyCenter.Common.Commands\BeautyCenter.Common.Commands.csproj" />
+    <ProjectReference Include="..\BeautyCenter.Common.Infra\BeautyCenter.Common.Infra.csproj" />
+    <ProjectReference Include="..\BeautyCenter.Common.Types\BeautyCenter.Common.Types.csproj" />
+    <ProjectReference Include="..\BeautyCenter.Data.DataService\BeautyCenter.Data.DataService.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Identity\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.2" />
+  </ItemGroup>
 
 </Project>

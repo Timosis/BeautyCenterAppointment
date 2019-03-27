@@ -19,7 +19,6 @@ namespace BeautyCenter.Models.Customer
 
         public double PaymentAmount { get; set; }
 
-
         public CustomerPaymentsVm(int id, DateTime paymentDate, PaymentType paymentType, double paymentAmount)
         {
             this.Id = id;

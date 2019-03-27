@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeautyCenter.Common.Infra",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeautyCenter.Common.Types", "BeautyCenter.Common.Types\BeautyCenter.Common.Types.csproj", "{1EE4C6A0-9339-4734-B05E-B90D602F9081}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeautyCenter.Common.Utils", "BeautyCenter.Common.Utils\BeautyCenter.Common.Utils.csproj", "{3557FEF6-0C5E-4A0F-8178-BC1F9CC76887}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BeautyCenter.Common.Utils", "BeautyCenter.Common.Utils\BeautyCenter.Common.Utils.csproj", "{3557FEF6-0C5E-4A0F-8178-BC1F9CC76887}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

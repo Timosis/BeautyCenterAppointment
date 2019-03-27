@@ -1,4 +1,4 @@
-import * as dom from './dom/index'
+import * as dom from './dom/index.js'
 
 export const fixScrollbar = () => {
   // for queues, do not do this more than once
@@ -15,7 +15,7 @@ export const fixScrollbar = () => {
 
 export const undoScrollbar = () => {
   if (dom.states.previousBodyPadding !== null) {
-    document.body.style.paddingRight = dom.states.previousBodyPadding
+    document.body.style.paddingRight = dom.states.previousBodyPadding + 'px'
     dom.states.previousBodyPadding = null
   }
 }

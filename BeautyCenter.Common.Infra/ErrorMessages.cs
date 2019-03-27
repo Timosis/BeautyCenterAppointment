@@ -9,10 +9,11 @@ namespace BeautyCenter.Common.Infra
         public static Dictionary<string, string> Messages { get; set; }
 
         static ErrorMessages()
-        {
-            //TODO Sisteme göre hata codeları ve mesajlar uyarlanacak.
+        {            
             Messages = new Dictionary<string, string>();
             Messages.Add(ErrorCodes.Personnel_NewPersonnel_ErrorOccurdWhileAddingCompanyPersonnel, "Personelin profil bilgileri getirilirken bir hata oluştu.");
+            Messages.Add(ErrorCodes.Customer_Common_CustomerAlreadyExistWithEmailAdress, "Email Adresi ile zaten bir kişi kayıtlıdır.");
+
         }
         public static bool ContainsKey(string key)
         {

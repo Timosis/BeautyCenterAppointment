@@ -1,5 +1,4 @@
-﻿@model IEnumerable<BeautyCenter.Models.Customer.CustomerVm>
-
+﻿@model IEnumerable<BeautyCenter.Models.Customer.ListCustomerVm>
 
 <div class="m-portlet m-portlet--mobile">
     <div class="m-portlet__head">
@@ -32,8 +31,8 @@
                     <th>Kayıt Tarihi</th>
                     <th>Ad</th>
                     <th>Soyad</th>
-                    <th>Cep Telefonu</th>
                     <th>Email</th>
+                    <th>Telefon</th>
                     <th>İşlemler</th>
                 </tr>
             </thead>
@@ -49,7 +48,7 @@
                 "dataSrc": ""
             },
             "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Turkish.json"
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Turkish.json",
             },
             "columns": [
                 { "data": "Id" },
@@ -60,52 +59,68 @@
                 { "data": "Telephone" },
                 {
                     "data": null,
-                    "defaultContent": `      
-
-                       <a href="#" id="CustomerDetail" onClick = "customerDetail();" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Görüntüle" data-toggle="modal" data-target="#m_modal_general">
-                          <i class="la la-search"></i>
-                        </a>\
-                        <a href="#" id="CustomerEdit" onClick = "customerEdit();" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Güncelle" data-toggle="modal" data-target="#m_modal_general">
-                          <i class="la la-edit"></i>
-                        </a>\
-	                    <a href="#" id="CustomerDelete" onClick = "customerDelete();" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Sil">
-							<i class="la la-trash"></i>
-						</a>
-`
+                    render: function (data, type, row) {
+                        return '<a href="#" id="CustomerDetail" onClick = "customerDetail();" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Görüntüle" data-toggle="modal" data-target="#m_modal_general"><i class="la la-search"></i></a><a href="#" id="CustomerEdit" onClick = "customerEdit(' + data.Id + ');" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Güncelle" data-toggle="modal" data-target="#m_modal_general"><i class="la la-edit"></i><a href="#" id="CustomerDelete" onClick = "customerDelete(' + data.Id + ');" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Sil"><i class="la la-trash"></i></a>';
+                    },
+                    "targets": -1
                 }
             ]
         });
+        
     });
 
-
-    function customerDelete(e) {
-        swal({
-            title: 'Silmek istediğinize emin misiniz ?',
-            text: "İşlem geri alınamayacaktır!",
+    function customerDelete(customerId) {        
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-danger',
+                cancelButton: 'btn btn-secondary'
+            },
+            buttonsStyling: false,
+        })
+        swalWithBootstrapButtons.fire({
+            title: 'Silmek istediğine emin misin?',
+            text: "İşlem tekrar geri alınmayacaktır!",
             type: 'warning',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
             confirmButtonText: 'Evet, Sil!',
-            cancelButtonText: 'İptal',
-            heightAuto: false
+            cancelButtonText: 'Hayır, İptal et!'
         }).then((result) => {
             if (result.value) {
-                swal({
-                    confirmButtonText: 'Tamam',
-                    title:'Silindi!',
-                    heightAuto: false,
-                    type:'success'
-                })
-            }
-        })
+                debugger;
+                $.ajax({
+                    type: "POST",
+                    url: "/Customer/Customer_Delete",
+                    data: { customerId: customerId },
+                    cache: false,
+                    success: function (response) {
+                        Swal.fire(
+                            "Başarılı!",
+                            "Silme İşleminiz Başarıyla Gerçekleştirilmiştir.",
+                            "success"
+                        ).then(function () {
+                            location.reload();
+                        })
+                       
+                    },
+                    failure: function (response) {
+                        debugger;
+                        Swal.fire(
+                            "Hata!",
+                            "Oops, İşleminizi Gerçekleştirirken Bir Hata Oluştu.", // had a missing comma
+                            "error"
+                        )
+                    }
+                })                   
+            }                   
+        } )
     }
 
-    function customerEdit() {        
+    function customerEdit(customerId) {          
         $.ajax({
             type: "GET",
             url: "/Customer/Customer_Update",
             contentType: "application/json; charset=utf-8",
+            data: { customerId: customerId},
             datatype: "json",
             success: function (data) {
                 $('#generalModal').html(data);

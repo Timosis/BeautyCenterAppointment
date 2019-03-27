@@ -1,4 +1,4 @@
-import { warn, warnOnce } from '../utils/utils'
+import { warn, warnOnce } from '../utils/utils.js'
 
 const defaultParams = {
   title: '',
@@ -9,6 +9,7 @@ const defaultParams = {
   type: null,
   toast: false,
   customClass: '',
+  customContainerClass: '',
   target: 'body',
   backdrop: true,
   animation: true,
@@ -24,11 +25,11 @@ const defaultParams = {
   confirmButtonText: 'OK',
   confirmButtonAriaLabel: '',
   confirmButtonColor: null,
-  confirmButtonClass: null,
+  confirmButtonClass: '',
   cancelButtonText: 'Cancel',
   cancelButtonAriaLabel: '',
   cancelButtonColor: null,
-  cancelButtonClass: null,
+  cancelButtonClass: '',
   buttonsStyling: true,
   reverseButtons: false,
   focusConfirm: true,
@@ -40,7 +41,7 @@ const defaultParams = {
   imageWidth: null,
   imageHeight: null,
   imageAlt: '',
-  imageClass: null,
+  imageClass: '',
   timer: null,
   width: null,
   padding: null,
@@ -50,9 +51,10 @@ const defaultParams = {
   inputValue: '',
   inputOptions: {},
   inputAutoTrim: true,
-  inputClass: null,
+  inputClass: '',
   inputAttributes: {},
   inputValidator: null,
+  validationMessage: null,
   grow: false,
   position: 'center',
   progressSteps: [],
@@ -62,13 +64,25 @@ const defaultParams = {
   onAfterClose: null,
   onOpen: null,
   onClose: null,
-  useRejections: false,
-  expectRejections: false
+  scrollbarPadding: true
 }
 
-export const deprecatedParams = [
-  'useRejections',
-  'expectRejections'
+export const deprecatedParams = {
+  customContainerClass: 'customClass',
+  confirmButtonClass: 'customClass',
+  cancelButtonClass: 'customClass',
+  imageClass: 'customClass',
+  inputClass: 'customClass'
+}
+
+const toastIncompatibleParams = [
+  'allowOutsideClick',
+  'allowEnterKey',
+  'backdrop',
+  'focusConfirm',
+  'focusCancel',
+  'heightAuto',
+  'keydownListenerCapture'
 ]
 
 /**
@@ -76,24 +90,40 @@ export const deprecatedParams = [
  * @param {String} paramName
  */
 export const isValidParameter = (paramName) => {
-  return defaultParams.hasOwnProperty(paramName) || paramName === 'extraParams'
+  return defaultParams.hasOwnProperty(paramName)
 }
 
 /**
- * Is valid parameter for toasts
+ * Is valid parameter for Swal.update() method
  * @param {String} paramName
  */
-export const isValidToastParameter = (paramName) => {
-  const incompatibleParams = [
-    'allowOutsideClick',
-    'allowEnterKey',
-    'backdrop',
-    'focusConfirm',
-    'focusCancel',
-    'heightAuto',
-    'keydownListenerCapture'
-  ]
-  return incompatibleParams.indexOf(paramName) === -1
+export const isUpdatableParameter = (paramName) => {
+  return [
+    'title',
+    'titleText',
+    'text',
+    'html',
+    'type',
+    'showConfirmButton',
+    'showCancelButton',
+    'confirmButtonText',
+    'confirmButtonAriaLabel',
+    'confirmButtonColor',
+    'confirmButtonClass',
+    'cancelButtonText',
+    'cancelButtonAriaLabel',
+    'cancelButtonColor',
+    'cancelButtonClass',
+    'buttonsStyling',
+    'reverseButtons',
+    'imageUrl',
+    'imageWidth',
+    'imageHeigth',
+    'imageAlt',
+    'imageClass',
+    'progressSteps',
+    'currentProgressStep'
+  ].indexOf(paramName) !== -1
 }
 
 /**
@@ -101,7 +131,7 @@ export const isValidToastParameter = (paramName) => {
  * @param {String} paramName
  */
 export const isDeprecatedParameter = (paramName) => {
-  return deprecatedParams.includes(paramName)
+  return deprecatedParams[paramName]
 }
 
 /**
@@ -114,11 +144,11 @@ export const showWarningsForParams = (params) => {
     if (!isValidParameter(param)) {
       warn(`Unknown parameter "${param}"`)
     }
-    if (params.toast && !isValidToastParameter(param)) {
+    if (params.toast && toastIncompatibleParams.includes(param)) {
       warn(`The parameter "${param}" is incompatible with toasts`)
     }
     if (isDeprecatedParameter(param)) {
-      warnOnce(`The parameter "${param}" is deprecated and will be removed in the next major release.`)
+      warnOnce(`The parameter "${param}" is deprecated and will be removed in the next major release. Please use "${isDeprecatedParameter(param)}" instead.`)
     }
   }
 }

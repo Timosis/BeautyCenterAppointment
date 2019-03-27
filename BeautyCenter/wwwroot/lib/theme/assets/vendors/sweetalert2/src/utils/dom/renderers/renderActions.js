@@ -1,5 +1,5 @@
 import { swalClasses } from '../../classes.js'
-import * as dom from '../../dom/index'
+import * as dom from '../../dom/index.js'
 
 export const renderActions = (params) => {
   const actions = dom.getActions()
@@ -22,7 +22,7 @@ export const renderActions = (params) => {
 
   // Confirm button
   if (params.showConfirmButton) {
-    dom.removeStyleProperty(confirmButton, 'display')
+    confirmButton.style.removeProperty('display')
   } else {
     dom.hide(confirmButton)
   }
@@ -38,8 +38,14 @@ export const renderActions = (params) => {
   // Add buttons custom classes
   confirmButton.className = swalClasses.confirm
   dom.addClass(confirmButton, params.confirmButtonClass)
+  if (params.customClass) {
+    dom.addClass(confirmButton, params.customClass.confirmButton)
+  }
   cancelButton.className = swalClasses.cancel
   dom.addClass(cancelButton, params.cancelButtonClass)
+  if (params.customClass) {
+    dom.addClass(cancelButton, params.customClass.cancelButton)
+  }
 
   // Buttons styling
   if (params.buttonsStyling) {

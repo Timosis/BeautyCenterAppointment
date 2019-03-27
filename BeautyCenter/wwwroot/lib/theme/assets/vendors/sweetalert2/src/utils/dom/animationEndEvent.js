@@ -1,7 +1,8 @@
-import { isNodeEnv } from '../isNodeEnv'
+import { isNodeEnv } from '../isNodeEnv.js'
 
 export const animationEndEvent = (() => {
   // Prevent run in Node env
+  /* istanbul ignore if */
   if (isNodeEnv()) {
     return false
   }

@@ -177,7 +177,35 @@
             Intallments();
             Payments();
             Chart();
+            OperationDetail();
+
         });
+
+
+        function OperationDetail() {
+            var table = $('#tbloperations').DataTable();
+
+            $('#tbloperations tbody').on('click', 'tr', function () {
+                debugger;
+                var data = table.row(this).data();
+                $.ajax({
+                    url: '/Customer/CustomerOperationDetail_Read',
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { customerOperationId: data.Id },
+                    success: function (result) {
+                        console.log(data);  // for testing only
+                        var res = $.parseJSON(data);
+                        jQuery.each(res, function (index, value) {
+                            console.log(value);
+                        });
+                    },
+                    error: function (error) {
+                        alert("Error");
+                    }
+                });
+            });
+        }
 
         function Appointments() {
             $('#tblappointment').dataTable({
@@ -195,13 +223,13 @@
                         "data": "Status",
                         "render": function (data, type, row) {
                             if (data == 1) {
-                                return '<i class="fa fa-check-circle m--font-success"> Geldi </i>'
+                                return '<i class="fa fa-check-circle fa-2x m--font-success"/>'
                             }
                             if (data == 2) {
-                                return '<i class="fa fa-times-circle m--font-danger"> İptal</i>';
+                                return '<i class="fa fa-minus-circle fa-2x m--font-danger"/>';
                             }
                             if (data == 3) {
-                                return '<i class="fas fa-hourglass m--font-info"> Aktif </i>';
+                                return '<i class="fas fa-hourglass fa-2x m--font-info"/>';
                             }
                         }
 
@@ -232,13 +260,24 @@
                     {
                         "data": "IsPaid",
                         "render": function (data, type, row) {
-                            return (data == true) ? '<i class="fa fa-check-circle m--font-success"> Ödendi </i>' : '<i class="fa fa-minus-circle m--font-danger"> Ödenmedi</i>';
+                            return (data == true) ? '<i class="fa fa-check-circle fa-2x m--font-success"/>' : '<i class="fa fa-minus-circle fa-lg m--font-danger"/>';
                         }
                     },
                     {
-                        "data": "IsInstallment",
+                        "data": "PaymentType",
                         "render": function (data, type, row) {
-                            return (data == true) ? '<i class="fa fa-check-circle m--font-success"> Ödendi </i>' : '<i class="fa fa-minus-circle m--font-danger"> Ödenmedi</i>';
+                            if (data == 1) {
+                                return '<i class="fa fa-money-bill fa-2x m--font-success" data-toggle="tooltip" data-placement="bottom" title="Nakit"/>'
+                            }
+                            if (data == 2) {
+                                return '<i class="fa fa-credit-card fa-2x m--font-primary" data-toggle="tooltip" data-placement="bottom" title="Banka Veya Kredi Kartı"/>';
+                            }
+                            if (data == 3) {
+                                return '<i class="fas fa-credit-card fa-2x m--font-info" data-toggle="tooltip" data-placement="bottom" title="Kredi Kartına Taksit"/>';
+                            }
+                            if (data == 4) {
+                                return '<i class="fas fa-hands-helping fa-2x m--font-warning" data-toggle="tooltip" data-placement="bottom" title="Elden Taksit"/>';
+                            }
                         }
                     }
                 ]
@@ -260,7 +299,7 @@
                     {
                         "data": "IsPaid",
                         "render": function (data, type, row) {
-                            return (data == true) ? '<i class="fa fa-check-circle m--font-success"> Ödendi </i>' : '<i class="fa fa-minus-circle m--font-danger"> Beklemede </i>';
+                            return (data == true) ? '<i class="fa fa-check-circle fa-2x m--font-success" data-toggle="tooltip" data-placement="bottom" title="Ödendi"/>' : '<i class="fa fa-minus-circle fa-2x m--font-danger" data-toggle="m-tooltip" data-placement="left" title="Beklemede"/>';
                         }
                     }
                 ]
@@ -278,7 +317,23 @@
                 },
                 "columns": [
                     { "data": "PaymentDate" },
-                    { "data": "PaymentType" },
+                    {
+                        "data": "PaymentType",
+                        "render": function (data, type, row) {
+                            if (data == 1) {
+                                return '<i class="fa fa-money-bill fa-2x m--font-success" data-toggle="tooltip" data-placement="bottom" title="Nakit"/>'
+                            }
+                            if (data == 2) {
+                                return '<i class="fa fa-credit-card fa-2x m--font-primary" data-toggle="tooltip" data-placement="bottom" title="Banka Veya Kredi Kartı"/>';
+                            }
+                            if (data == 3) {
+                                return '<i class="fas fa-credit-card fa-2x m--font-info" data-toggle="tooltip" data-placement="bottom" title="Kredi Kartına Taksit"/>';
+                            }
+                            if (data == 4) {
+                                return '<i class="fas fa-hands-helping fa-2x m--font-warning" data-toggle="tooltip" data-placement="bottom" title="Elden Taksit"/>';
+                            }
+                        }
+                    },
                     {
                         "data": "PaymentAmount",
                         "render": function (data, type, row) {

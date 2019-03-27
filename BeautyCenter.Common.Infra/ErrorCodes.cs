@@ -15,6 +15,13 @@ namespace BeautyCenter.Common.Infra
         public const string Common_ErrorOccuredWhileUpdatingRecord = "Common_ErrorOccuredWhileUpdatingRecord";
         public const string Common_ErrorOccuredWhileAddingRecord = "Common_ErrorOccuredWhileAddingRecord";
         public const string Common_TheRecordYouWantToDeleteWasNotFound = "Common_TheRecordYouWantToDeleteWasNotFound";
+        public const string Common_ErrorOccuredWhileProcessingYourRequest = "Common_ErrorOccuredWhileProcessingYourRequest";
+
+        public const string Customer_Common_ErrorOccuredWhileAddingCustomer = "Customer_Common_ErrorOccuredWhileAddingCustomer";
+        public const string Customer_Common_CustomerAlreadyExistWithEmailAdress = "Customer_Common_CustomerAlreadyExistWithEmailAdress";
+        public const string Customer_Common_CustomerNotFound = "Customer_Common_CustomerNotFound";
+        public const string Customer_TheCustomerYouWantToDeleteWasNotFound = "Customer_TheCustomerYouWantToDeleteWasNotFound";
+        public const string Customer_Common_ErrorOccuredWhileUpdatingCustomer = "Customer_Common_ErrorOccuredWhileUpdatingCustomer";
 
 
 

@@ -1,4 +1,4 @@
-﻿using Kendo.Mvc.UI;
+﻿using BeautyCenter.Common.Types.Dto.Appointment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,22 +8,11 @@ namespace BeautyCenter.Models
 {
     public class AppointmentVm 
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public DateTime Start { get; set; }
-        public DateTime End { get; set; }
-        public string Color { get; set; }
-        public bool IsFullDay { get; set; }
+        AppointmentDto Appointment { get; set; }
 
-
-        public AppointmentVm(int Id,string Title,DateTime Start,DateTime End,string Color,bool IsFullDay)
+        public AppointmentVm()
         {
-            this.Id = Id;
-            this.Title = Title;
-            this.Start = Start;
-            this.End = End;
-            this.Color = Color;
-            this.IsFullDay = IsFullDay;
+            Appointment = new AppointmentDto();
         }
     }
 }

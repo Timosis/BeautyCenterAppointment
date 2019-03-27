@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BeautyCenter.Data.Context.UnitOfWork
 {
-    public class UnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private IDbFactory dbFactory;
 
@@ -12,21 +12,25 @@ namespace BeautyCenter.Data.Context.UnitOfWork
         {
             this.dbFactory = dbFactory;
         }
+
         public void BeginTransaction()
         {
             dbFactory.GetBeautyCenterContext.Database.BeginTransaction();
         }
-        public void CommitTransaction()
-        {
-            dbFactory.GetBeautyCenterContext.Database.CommitTransaction();
-        }
+
         public void RollbackTransaction()
         {
             dbFactory.GetBeautyCenterContext.Database.RollbackTransaction();
         }
+
+        public void CommitTransaction()
+        {
+            dbFactory.GetBeautyCenterContext.Database.CommitTransaction();
+        }
+
         public void SaveChanges()
         {
-            dbFactory.GetBeautyCenterContext.SaveChanges();
+            dbFactory.GetBeautyCenterContext.Save();
         }
     }
 }

@@ -1,7 +1,6 @@
 body {
   &.swal2-toast-shown {
     .swal2-container {
-      position: fixed;
       background-color: transparent;
 
       &.swal2-shown {
@@ -106,12 +105,11 @@ body {
         font-size: $swal2-toast-input-font-size;
       }
 
-      .swal2-validationerror {
+      .swal2-validation-message {
         font-size: $swal2-toast-validation-font-size;
       }
     }
   }
-
 }
 
 .swal2-popup {
@@ -158,14 +156,18 @@ body {
       height: 2em;
       margin: 0;
 
-      &-text {
+      &::before {
+        display: flex;
+        align-items: center;
         font-size: 2em;
         font-weight: bold;
-        line-height: 1em;
+
+        @include ie {
+          font-size: .25em;
+        }
       }
 
       &.swal2-success {
-
         .swal2-success-ring {
           width: 2em;
           height: 2em;
@@ -173,7 +175,6 @@ body {
       }
 
       &.swal2-error {
-
         [class^='swal2-x-mark-line'] {
           top: .875em;
           width: 1.375em;

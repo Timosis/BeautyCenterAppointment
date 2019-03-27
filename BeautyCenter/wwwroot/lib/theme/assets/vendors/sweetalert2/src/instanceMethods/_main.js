@@ -1,12 +1,13 @@
-import defaultParams, { showWarningsForParams } from '../utils/params'
-import * as dom from '../utils/dom/index'
-import { swalClasses } from '../utils/classes'
-import Timer from '../utils/Timer'
-import { formatInputOptions, error, callIfFunction, isThenable } from '../utils/utils'
-import setParameters from '../utils/setParameters'
-import globalState from '../globalState'
-import { openPopup } from '../utils/openPopup'
-import privateProps from '../privateProps'
+import defaultParams, { showWarningsForParams } from '../utils/params.js'
+import * as dom from '../utils/dom/index.js'
+import { swalClasses } from '../utils/classes.js'
+import Timer from '../utils/Timer.js'
+import { formatInputOptions, error, warn, callIfFunction, isPromise } from '../utils/utils.js'
+import setParameters from '../utils/setParameters.js'
+import globalState from '../globalState.js'
+import { openPopup } from '../utils/openPopup.js'
+import privateProps from '../privateProps.js'
+import privateMethods from '../privateMethods.js'
 
 export function _main (userParams) {
   showWarningsForParams(userParams)
@@ -33,35 +34,23 @@ export function _main (userParams) {
     confirmButton: dom.getConfirmButton(),
     cancelButton: dom.getCancelButton(),
     closeButton: dom.getCloseButton(),
-    validationError: dom.getValidationError(),
+    validationMessage: dom.getValidationMessage(),
     progressSteps: dom.getProgressSteps()
   }
   privateProps.domCache.set(this, domCache)
 
   const constructor = this.constructor
 
-  return new Promise((resolve, reject) => {
-    // functions to handle all resolving/rejecting/settling
+  return new Promise((resolve) => {
+    // functions to handle all closings/dismissals
     const succeedWith = (value) => {
-      constructor.closePopup(innerParams.onClose, innerParams.onAfterClose) // TODO: make closePopup an *instance* method
-      if (innerParams.useRejections) {
-        resolve(value)
-      } else {
-        resolve({ value })
-      }
+      this.closePopup({ value })
     }
     const dismissWith = (dismiss) => {
-      constructor.closePopup(innerParams.onClose, innerParams.onAfterClose)
-      if (innerParams.useRejections) {
-        reject(dismiss)
-      } else {
-        resolve({ dismiss })
-      }
+      this.closePopup({ dismiss })
     }
-    const errorWith = (error) => {
-      constructor.closePopup(innerParams.onClose, innerParams.onAfterClose)
-      reject(error)
-    }
+
+    privateMethods.swalPromiseResolve.set(this, resolve)
 
     // Close on timer
     if (innerParams.timer) {
@@ -105,30 +94,17 @@ export function _main (userParams) {
       }
 
       if (innerParams.preConfirm) {
-        this.resetValidationError()
-        const preConfirmPromise = Promise.resolve().then(() => innerParams.preConfirm(value, innerParams.extraParams))
-        if (innerParams.expectRejections) {
-          preConfirmPromise.then(
-            (preConfirmValue) => succeedWith(preConfirmValue || value),
-            (validationError) => {
+        this.resetValidationMessage()
+        const preConfirmPromise = Promise.resolve().then(() => innerParams.preConfirm(value, innerParams.validationMessage))
+        preConfirmPromise.then(
+          (preConfirmValue) => {
+            if (dom.isVisible(domCache.validationMessage) || preConfirmValue === false) {
               this.hideLoading()
-              if (validationError) {
-                this.showValidationError(validationError)
-              }
+            } else {
+              succeedWith(typeof (preConfirmValue) === 'undefined' ? value : preConfirmValue)
             }
-          )
-        } else {
-          preConfirmPromise.then(
-            (preConfirmValue) => {
-              if (dom.isVisible(domCache.validationError) || preConfirmValue === false) {
-                this.hideLoading()
-              } else {
-                succeedWith(preConfirmValue || value)
-              }
-            },
-            (error) => errorWith(error)
-          )
-        }
+          }
+        )
       } else {
         succeedWith(value)
       }
@@ -144,43 +120,28 @@ export function _main (userParams) {
       switch (e.type) {
         case 'click':
           // Clicked 'confirm'
-          if (targetedConfirm && constructor.isVisible()) {
+          if (targetedConfirm) {
             this.disableButtons()
             if (innerParams.input) {
               const inputValue = getInputValue()
 
               if (innerParams.inputValidator) {
                 this.disableInput()
-                const validationPromise = Promise.resolve().then(() => innerParams.inputValidator(inputValue, innerParams.extraParams))
-                if (innerParams.expectRejections) {
-                  validationPromise.then(
-                    () => {
-                      this.enableButtons()
-                      this.enableInput()
+                const validationPromise = Promise.resolve().then(() => innerParams.inputValidator(inputValue, innerParams.validationMessage))
+                validationPromise.then(
+                  (validationMessage) => {
+                    this.enableButtons()
+                    this.enableInput()
+                    if (validationMessage) {
+                      this.showValidationMessage(validationMessage)
+                    } else {
                       confirm(inputValue)
-                    },
-                    (validationError) => {
-                      this.enableButtons()
-                      this.enableInput()
-                      if (validationError) {
-                        this.showValidationError(validationError)
-                      }
                     }
-                  )
-                } else {
-                  validationPromise.then(
-                    (validationError) => {
-                      this.enableButtons()
-                      this.enableInput()
-                      if (validationError) {
-                        this.showValidationError(validationError)
-                      } else {
-                        confirm(inputValue)
-                      }
-                    },
-                    error => errorWith(error)
-                  )
-                }
+                  }
+                )
+              } else if (!this.getInput().checkValidity()) {
+                this.enableButtons()
+                this.showValidationMessage(innerParams.validationMessage)
               } else {
                 confirm(inputValue)
               }
@@ -188,8 +149,8 @@ export function _main (userParams) {
               confirm(true)
             }
 
-            // Clicked 'cancel'
-          } else if (targetedCancel && constructor.isVisible()) {
+          // Clicked 'cancel'
+          } else if (targetedCancel) {
             this.disableButtons()
             dismissWith(constructor.DismissReason.cancel)
           }
@@ -349,6 +310,7 @@ export function _main (userParams) {
 
         // ESC
       } else if ((e.key === 'Escape' || e.key === 'Esc') && callIfFunction(innerParams.allowEscapeKey) === true) {
+        e.preventDefault()
         dismissWith(constructor.DismissReason.esc)
       }
     }
@@ -368,7 +330,7 @@ export function _main (userParams) {
 
     this.enableButtons()
     this.hideLoading()
-    this.resetValidationError()
+    this.resetValidationMessage()
 
     if (innerParams.toast && (innerParams.input || innerParams.footer || innerParams.showCloseButton)) {
       dom.addClass(document.body, swalClasses['toast-column'])
@@ -378,6 +340,11 @@ export function _main (userParams) {
 
     // inputs
     const inputTypes = ['input', 'file', 'range', 'select', 'radio', 'checkbox', 'textarea']
+    const setInputPlaceholder = (input) => {
+      if (!input.placeholder || innerParams.inputPlaceholder) {
+        input.placeholder = innerParams.inputPlaceholder
+      }
+    }
     let input
     for (let i = 0; i < inputTypes.length; i++) {
       const inputClass = swalClasses[inputTypes[i]]
@@ -395,6 +362,12 @@ export function _main (userParams) {
           }
         }
         for (let attr in innerParams.inputAttributes) {
+          // Do not set a placeholder for <input type="range">
+          // it'll crash Edge, #1298
+          if (inputTypes[i] === 'range' && attr === 'placeholder') {
+            continue
+          }
+
           input.setAttribute(attr, innerParams.inputAttributes[attr])
         }
       }
@@ -403,6 +376,9 @@ export function _main (userParams) {
       inputContainer.className = inputClass
       if (innerParams.inputClass) {
         dom.addClass(inputContainer, innerParams.inputClass)
+      }
+      if (innerParams.customClass) {
+        dom.addClass(inputContainer, innerParams.customClass.input)
       }
 
       dom.hide(inputContainer)
@@ -417,15 +393,19 @@ export function _main (userParams) {
       case 'tel':
       case 'url': {
         input = dom.getChildByClass(domCache.content, swalClasses.input)
-        input.value = innerParams.inputValue
-        input.placeholder = innerParams.inputPlaceholder
+        if (typeof innerParams.inputValue === 'string' || typeof innerParams.inputValue === 'number') {
+          input.value = innerParams.inputValue
+        } else if (!isPromise(innerParams.inputValue)) {
+          warn(`Unexpected type of inputValue! Expected "string", "number" or "Promise", got "${typeof innerParams.inputValue}"`)
+        }
+        setInputPlaceholder(input)
         input.type = innerParams.input
         dom.show(input)
         break
       }
       case 'file': {
         input = dom.getChildByClass(domCache.content, swalClasses.file)
-        input.placeholder = innerParams.inputPlaceholder
+        setInputPlaceholder(input)
         input.type = innerParams.input
         dom.show(input)
         break
@@ -513,7 +493,7 @@ export function _main (userParams) {
       case 'textarea': {
         const textarea = dom.getChildByClass(domCache.content, swalClasses.textarea)
         textarea.value = innerParams.inputValue
-        textarea.placeholder = innerParams.inputPlaceholder
+        setInputPlaceholder(textarea)
         dom.show(textarea)
         break
       }
@@ -527,7 +507,7 @@ export function _main (userParams) {
 
     if (innerParams.input === 'select' || innerParams.input === 'radio') {
       const processInputOptions = inputOptions => populateInputOptions(formatInputOptions(inputOptions))
-      if (isThenable(innerParams.inputOptions)) {
+      if (isPromise(innerParams.inputOptions)) {
         constructor.showLoading()
         innerParams.inputOptions.then((inputOptions) => {
           this.hideLoading()
@@ -538,7 +518,7 @@ export function _main (userParams) {
       } else {
         error(`Unexpected type of inputOptions! Expected object, Map or Promise, got ${typeof innerParams.inputOptions}`)
       }
-    } else if (['text', 'email', 'number', 'tel', 'textarea'].includes(innerParams.input) && isThenable(innerParams.inputValue)) {
+    } else if (['text', 'email', 'number', 'tel', 'textarea'].includes(innerParams.input) && isPromise(innerParams.inputValue)) {
       constructor.showLoading()
       dom.hide(input)
       innerParams.inputValue.then((inputValue) => {
@@ -560,7 +540,7 @@ export function _main (userParams) {
 
     if (!innerParams.toast) {
       if (!callIfFunction(innerParams.allowEnterKey)) {
-        if (document.activeElement) {
+        if (document.activeElement && typeof document.activeElement.blur === 'function') {
           document.activeElement.blur()
         }
       } else if (innerParams.focusCancel && dom.isVisible(domCache.cancelButton)) {

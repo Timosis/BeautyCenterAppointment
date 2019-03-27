@@ -11,11 +11,10 @@ namespace BeautyCenter.Data.Context
 {
     public class EntityFrameworkRepository : EntityFrameworkReadOnlyRepository, IRepository
     {
-        private readonly BeautyCenterContext dbContext;
 
-        public EntityFrameworkRepository(IDbFactory dbFactory) : base(dbFactory)
+        public EntityFrameworkRepository(IDbFactory dbFactory): base(dbFactory)
         {
-            dbContext = dbFactory.GetBeautyCenterContext;
+            this.dbContext = dbFactory.GetBeautyCenterContext;
         }
 
         public virtual void Create<TEntity>(TEntity entity)
@@ -27,7 +26,6 @@ namespace BeautyCenter.Data.Context
         where TEntity : class, IEntity
         {
             dbContext.Set<TEntity>().Attach(entity);
-            dbContext.Entry(entity).State = EntityState.Modified;
         }
 
         public virtual void Delete<TEntity>(object id)
@@ -41,10 +39,9 @@ namespace BeautyCenter.Data.Context
          where TEntity : class, IEntity
         {
             var dbSet = dbContext.Set<TEntity>();
-            if (dbContext.Entry(entity).State == EntityState.Detached)
-            {
-                dbSet.Attach(entity);
-            }
+
+            dbSet.Attach(entity);
+        
 
             dbSet.Remove(entity);
         }

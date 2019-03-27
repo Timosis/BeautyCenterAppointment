@@ -1,6 +1,6 @@
-import * as dom from '../utils/dom/index'
-import sweetAlert from '../sweetalert2'
-import { swalClasses } from '../utils/classes'
+import * as dom from '../utils/dom/index.js'
+import Swal from '../sweetalert2.js'
+import { swalClasses } from '../utils/classes.js'
 
 /**
  * Show spinner instead of Confirm button and disable Cancel button
@@ -8,7 +8,7 @@ import { swalClasses } from '../utils/classes'
 const showLoading = () => {
   let popup = dom.getPopup()
   if (!popup) {
-    sweetAlert('')
+    Swal.fire('')
   }
   popup = dom.getPopup()
   const actions = dom.getActions()

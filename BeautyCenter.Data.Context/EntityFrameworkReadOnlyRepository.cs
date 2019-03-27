@@ -13,11 +13,12 @@ namespace BeautyCenter.Data.Context
 {
     public class EntityFrameworkReadOnlyRepository : IReadOnlyRepository
     {
-        private readonly BeautyCenterContext dbContext;
+        //public  BeautyCenterContext dbContext;
+        public BeautyCenterContext dbContext;
 
         public EntityFrameworkReadOnlyRepository(IDbFactory dbFactory)
         {
-            this.dbContext = dbFactory.GetBeautyCenterContext;
+           this.dbContext = dbFactory.GetBeautyCenterContext;
         }
 
         public IQueryable<TEntity> GetQueryable<TEntity>(Expression<Func<TEntity, bool>> filter = null, Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null, string includeProperties = "", int? skip = null, int? take = null)

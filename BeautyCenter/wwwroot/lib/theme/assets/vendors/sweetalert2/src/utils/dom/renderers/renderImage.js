@@ -1,5 +1,5 @@
 import { swalClasses } from '../../classes.js'
-import * as dom from '../../dom/index'
+import * as dom from '../../dom/index.js'
 
 export const renderImage = (params) => {
   const image = dom.getImage()
@@ -24,6 +24,9 @@ export const renderImage = (params) => {
     image.className = swalClasses.image
     if (params.imageClass) {
       dom.addClass(image, params.imageClass)
+    }
+    if (params.customClass) {
+      dom.addClass(image, params.customClass.image)
     }
   } else {
     dom.hide(image)

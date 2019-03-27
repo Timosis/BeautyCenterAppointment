@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace BeautyCenter.Common.Infra.DataLayer
 {
-    public interface IRepository : IReadOnlyRepository
+    
+    public interface IRepository 
     {
         void Create<TEntity>(TEntity entity)
       where TEntity : class, IEntity;

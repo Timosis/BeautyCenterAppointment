@@ -1,11 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.2.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.2.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BeautyCenter.Common.Infra\BeautyCenter.Common.Infra.csproj" />
+    <ProjectReference Include="..\BeautyCenter.Data.Config\BeautyCenter.Data.Config.csproj" />
+    <ProjectReference Include="..\BeautyCenter.Data.Entities\BeautyCenter.Data.Entities.csproj" />
   </ItemGroup>
 
   <ItemGroup>

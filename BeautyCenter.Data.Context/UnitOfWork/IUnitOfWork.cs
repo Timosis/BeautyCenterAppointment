@@ -7,8 +7,11 @@ namespace BeautyCenter.Data.Context.UnitOfWork
     public interface IUnitOfWork
     {
         void BeginTransaction();
+
         void RollbackTransaction();
+
         void CommitTransaction();
+
         void SaveChanges();
     }
 }

@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BeautyCenter.Business.Appointments;
+using BeautyCenter.Common.Commands.Appointment;
 using BeautyCenter.Models;
-using Kendo.Mvc.Extensions;
-using Kendo.Mvc.UI;
+using BeautyCenter.Models.Appointment;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -12,6 +13,13 @@ namespace BeautyCenter.Controllers
 {
     public class AppointmentController : Controller
     {
+        private readonly IAppointmentBusiness _appointmentBusiness;
+
+        public AppointmentController(IAppointmentBusiness appointmentBusiness)
+        {
+            _appointmentBusiness = appointmentBusiness;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -26,25 +34,23 @@ namespace BeautyCenter.Controllers
         public IActionResult Appointment_Read()
         {          
 
-            List<AppointmentVm> appointments = new List<AppointmentVm>() {
-
-                new AppointmentVm(1,"Sulayman Christian",GenerateRandomDateTime.GenerateStartDate(),GenerateRandomDateTime.GenerateEndDate(),"Blue",false),
-                new AppointmentVm(2,"Aarush Harrison",GenerateRandomDateTime.GenerateStartDate(),GenerateRandomDateTime.GenerateEndDate(),"Blue",false),
-                new AppointmentVm(3,"Piper Tate",GenerateRandomDateTime.GenerateStartDate(),GenerateRandomDateTime.GenerateEndDate(),"Blue",false),
-                new AppointmentVm(4,"Keanan Tran",GenerateRandomDateTime.GenerateStartDate(),GenerateRandomDateTime.GenerateEndDate(),"Blue",false),
-                new AppointmentVm(5,"Kaiya Goodman",GenerateRandomDateTime.GenerateStartDate(),GenerateRandomDateTime.GenerateEndDate(),"Blue",false),
-                new AppointmentVm(6,"Bradlee Logan",GenerateRandomDateTime.GenerateStartDate(),GenerateRandomDateTime.GenerateEndDate(),"Blue",false),
-            };
-           
-            return Json(appointments);
+         
+            return Json(null);
         }
 
-        public IActionResult Appointment_Create()
+        public async Task<IActionResult> Appointment_Create(AddAppointmentVm vm)
         {
-            List<AppointmentVm> appointments = new List<AppointmentVm>();
+            var result = await _appointmentBusiness.SaveAppointment(new SaveAppointmentCommand
+            {
+                Appointment = vm.Appointment                              
+            });
 
+            if (result.HasError)
+            {
+                return Json("Başarısız!");
+            }
 
-            return Json(appointments);
+            return Json("Başarılı");
         }
 
         public IActionResult Appointment_Update()

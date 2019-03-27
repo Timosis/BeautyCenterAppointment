@@ -1,8 +1,7 @@
 import { swalClasses } from './classes.js'
 import { warn } from './utils.js'
-import * as dom from './dom/index'
-import sweetAlert from '../sweetalert2'
-import defaultInputValidators from './defaultInputValidators'
+import * as dom from './dom/index.js'
+import defaultInputValidators from './defaultInputValidators.js'
 
 /**
  * Set type, text and actions on popup
@@ -15,7 +14,7 @@ export default function setParameters (params) {
   if (!params.inputValidator) {
     Object.keys(defaultInputValidators).forEach((key) => {
       if (params.input === key) {
-        params.inputValidator = params.expectRejections ? defaultInputValidators[key] : sweetAlert.adaptInputValidator(defaultInputValidators[key])
+        params.inputValidator = defaultInputValidators[key]
       }
     })
   }
@@ -28,6 +27,11 @@ export default function setParameters (params) {
   ) {
     warn('Target parameter is not valid, defaulting to "body"')
     params.target = 'body'
+  }
+
+  // Animation
+  if (typeof params.animation === 'function') {
+    params.animation = params.animation.call()
   }
 
   let popup
@@ -46,7 +50,7 @@ export default function setParameters (params) {
   }
 
   // Set popup padding
-  if (params.padding) {
+  if (params.padding !== null) {
     popup.style.padding = (typeof params.padding === 'number') ? params.padding + 'px' : params.padding
   }
 
@@ -62,6 +66,10 @@ export default function setParameters (params) {
 
   const container = dom.getContainer()
   const closeButton = dom.getCloseButton()
+  const header = dom.getHeader()
+  const title = dom.getTitle()
+  const content = dom.getContent()
+  const actions = dom.getActions()
   const footer = dom.getFooter()
 
   // Title
@@ -96,11 +104,6 @@ export default function setParameters (params) {
     }
   }
 
-  // Animation
-  if (typeof params.animation === 'function') {
-    params.animation = params.animation.call()
-  }
-
   // Close button
   if (params.showCloseButton) {
     closeButton.setAttribute('aria-label', params.closeButtonAriaLabel)
@@ -118,9 +121,20 @@ export default function setParameters (params) {
     dom.addClass(popup, swalClasses.modal)
   }
 
-  // Custom Class
+  // Custom classes
   if (params.customClass) {
-    dom.addClass(popup, params.customClass)
+    dom.addClass(container, params.customClass.container)
+    dom.addClass(popup, typeof params.customClass === 'string' ? params.customClass : params.customClass.popup)
+    dom.addClass(header, params.customClass.header)
+    dom.addClass(title, params.customClass.title)
+    dom.addClass(closeButton, params.customClass.closeButton)
+    dom.addClass(content, params.customClass.content)
+    dom.addClass(actions, params.customClass.actions)
+    dom.addClass(footer, params.customClass.footer)
+  }
+
+  if (params.customContainerClass) {
+    dom.addClass(container, params.customContainerClass)
   }
 
   // Progress steps

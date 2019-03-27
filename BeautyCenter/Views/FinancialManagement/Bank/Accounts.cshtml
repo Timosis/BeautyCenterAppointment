@@ -3,41 +3,5 @@
     ViewData["Title"] = "Accounts";
 }
 
-@(Html.Kendo().Grid<BeautyCenter.Models.Bank.AccountVm>()
-                                                .Name("AccountGrid")
-                                                .Columns(columns =>
-                                                {
-                                                    columns.Bound(p => p.Name);
-                                                    columns.Bound(p => p.Amount);
-                                                })
-                                                .ToolBar(toolbar => toolbar.Custom().Text("Something"))
-                                                .Pageable()
-                                                .Sortable()
-                                                .HtmlAttributes(new { @class = "table table-striped- table-bordered table-hover table-checkable" })
-                                                .DataSource(dataSource => dataSource
-                                                    .Ajax()
-                                                    .PageSize(20)
-                                                    .Events(events => events.Error("error_handler"))
-                                                    .Model(model => model.Id(p => p.Id))
-                                                    .Read(read => read.Action("Accounts_Read", "Bank"))
 
 
-                                                )
-)
-
-
-<script type="text/javascript">
-    function error_handler(e) {
-        if (e.errors) {
-            var message = "Errors:\n";
-            $.each(e.errors, function (key, value) {
-                if ('errors' in value) {
-                    $.each(value.errors, function () {
-                        message += this + "\n";
-                    });
-                }
-            });
-            alert(message);
-        }
-    }
-</script>

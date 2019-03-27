@@ -11,15 +11,21 @@ namespace BeautyCenter.Models.Customer
     {
         public int Id { get; set; }
 
+        public int CustomerId { get; set; }
+        public CustomerVm customer;  
+
         [JsonConverter(typeof(DateTimeFormatHelper), "dd/MM/yyyy HH:mm")]
         public DateTime Date { get; set; }
         public string Department { get; set; }
         public int SessionCount { get; set; }
         public double Amount { get; set; }
         public bool IsPaid { get; set; }
-        public bool IsInstallment { get; set; }
+        public PaymentType PaymentType { get; set; }
 
-        public CustomerOperationsVm(int id, DateTime date, string department, int sessionCount, double amount, bool isPaid, bool isInstallment)
+        public List<CustomerOperationDetailVm> CustomerOperationDetails { get; set; }
+
+
+        public CustomerOperationsVm(int id, int customerId, DateTime date, string department, int sessionCount, double amount, bool isPaid, PaymentType paymentType)
         {
             this.Id = id;
             this.Date = date;
@@ -27,7 +33,9 @@ namespace BeautyCenter.Models.Customer
             this.SessionCount = sessionCount;
             this.Amount = amount;
             this.IsPaid = isPaid;
-            this.IsInstallment = isInstallment;
+            this.PaymentType = paymentType;
+            this.CustomerId = customerId;
+
         }
     }
 }

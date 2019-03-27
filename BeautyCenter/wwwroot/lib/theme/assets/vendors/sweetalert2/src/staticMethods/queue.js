@@ -5,30 +5,30 @@ let currentSteps = []
  * Global function for chaining sweetAlert popups
  */
 export const queue = function (steps) {
-  const swal = this
+  const Swal = this
   currentSteps = steps
-  const resetQueue = () => {
+
+  const resetAndResolve = (resolve, value) => {
     currentSteps = []
     document.body.removeAttribute('data-swal2-queue-step')
+    resolve(value)
   }
+
   let queueResult = []
   return new Promise((resolve) => {
     (function step (i, callback) {
       if (i < currentSteps.length) {
         document.body.setAttribute('data-swal2-queue-step', i)
-
-        swal(currentSteps[i]).then((result) => {
+        Swal.fire(currentSteps[i]).then((result) => {
           if (typeof result.value !== 'undefined') {
             queueResult.push(result.value)
             step(i + 1, callback)
           } else {
-            resetQueue()
-            resolve({ dismiss: result.dismiss })
+            resetAndResolve(resolve, { dismiss: result.dismiss })
           }
         })
       } else {
-        resetQueue()
-        resolve({ value: queueResult })
+        resetAndResolve(resolve, { value: queueResult })
       }
     })(0)
   })

@@ -32,7 +32,6 @@ export const swalClasses = prefix([
   'cancel',
   'footer',
   'icon',
-  'icon-text',
   'image',
   'input',
   'file',
@@ -43,11 +42,11 @@ export const swalClasses = prefix([
   'label',
   'textarea',
   'inputerror',
-  'validationerror',
-  'progresssteps',
-  'activeprogressstep',
-  'progresscircle',
-  'progressline',
+  'validation-message',
+  'progress-steps',
+  'active-progress-step',
+  'progress-step',
+  'progress-step-line',
   'loading',
   'styled',
   'top',
@@ -67,7 +66,8 @@ export const swalClasses = prefix([
   'bottom-right',
   'grow-row',
   'grow-column',
-  'grow-fullscreen'
+  'grow-fullscreen',
+  'rtl'
 ])
 
 export const iconTypes = prefix([

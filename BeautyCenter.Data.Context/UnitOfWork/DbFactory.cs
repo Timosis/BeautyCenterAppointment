@@ -4,34 +4,36 @@ using System.Text;
 
 namespace BeautyCenter.Data.Context.UnitOfWork
 {
-    public class DbFactory
+    public class DbFactory : IDbFactory, IDisposable
     {
-        private BeautyCenterContext beautyCenterContext;
-
-        public DbFactory(BeautyCenterContext beautyCenterContext)
+        private BeautyCenterContext dbContext;
+        public DbFactory(BeautyCenterContext dbContext)
         {
-            this.beautyCenterContext = beautyCenterContext;
+            this.dbContext = dbContext;
         }
+
         public BeautyCenterContext GetBeautyCenterContext
         {
             get
             {
-                return beautyCenterContext;
+                return this.dbContext;
             }
         }
+
         private bool isDisposed;
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
+
         public void Dispose(bool disposing)
         {
             if (!isDisposed && disposing)
             {
-                if (beautyCenterContext != null)
+                if (dbContext != null)
                 {
-                    beautyCenterContext.Dispose();
+                    dbContext.Dispose();
                 }
             }
             isDisposed = true;

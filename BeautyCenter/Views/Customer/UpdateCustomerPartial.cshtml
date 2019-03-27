@@ -1,4 +1,5 @@
-﻿
+﻿@model BeautyCenter.Models.Customer.UpdateCustomerVm
+
 <div class="modal-header">
     <h5 class="modal-title" id="exampleModalLabel">Müşteri Güncelleme</h5>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -6,26 +7,92 @@
     </button>
 </div>
 <div class="modal-body">
-    <form>
+    <div class="m-alert m-alert--icon alert alert-danger m--hide" role="alert" id="updateFormValidationMessage">
+        <div class="m-alert__icon">
+            <i class="la la-warning"></i>
+        </div>
+        <div class="m-alert__text">
+            Hay Aksi! Aşağıdaki bilgilerinden bazılarını doldurmayı unutmuş olmalısın.
+        </div>
+        <div class="m-alert__close">
+            <button type="button" class="close" data-close="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    <form id="updateCustomer" asp-controller="Customer" asp-action="Customer_Update" class="m-form m-form--state" method="post">
+        <input asp-for="Customer.Id" type="hidden" id="CustomerId" />
         <div class="form-group">
             <label for="recipient-name" class="form-control-label">Ad</label>
-            <input type="text" class="form-control" id="recipient-name">
+            <input asp-for="Customer.Firstname" type="text" class="form-control" id="Firstname" aria-required="true">
         </div>
         <div class="form-group">
             <label for="message-text" class="form-control-label">Soyad</label>
-            <input type="text" class="form-control" id="recipient-name">
+            <input asp-for="Customer.Lastname" type="text" class="form-control" id="Lastname" aria-required="true">
         </div>
         <div class="form-group">
             <label for="message-text" class="form-control-label">Email</label>
-            <input type="text" class="form-control" id="recipient-name">
+            <input asp-for="Customer.Email" type="text" class="form-control" id="Email" aria-required="true">
         </div>
         <div class="form-group">
             <label for="message-text" class="form-control-label">Telefon</label>
-            <input type="text" class="form-control" id="recipient-name">
+            <input asp-for="Customer.Telephone" type="text" class="form-control" id="Telephone" aria-required="true">
         </div>
     </form>
 </div>
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
-    <button type="button" class="btn btn-primary">Kayıt</button>
+    <button id="btnUpdate" type="submit" class="btn btn-primary">Kaydet</button>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#btnUpdate').click(function () {
+            $('#updateCustomer').submit();
+        })
+        ValidateUpdateCustomer();
+    })
+
+    function ValidateUpdateCustomer() {
+        $('#updateCustomer').validate({
+            rules: {
+                'Customer.Firstname': {
+                    required: true,
+                    minlength: 3,
+                    maxlength:30
+                },
+                'Customer.Lastname': {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 30
+                },
+                'Customer.Email': {
+                    required: true,
+                    maxlength: 30,
+                    email:true
+                },
+                'Customer.Telephone': {
+                    digits: true,
+                    required:true
+                }
+            },
+            invalidHandler: function (event, validator) {
+                mUtil.scrollTo("updateCustomer", -200);
+                var alert = $('#updateFormValidationMessage');
+                alert.removeClass('m--hide').show();
+                mUtil.scrollTop();
+            },
+            messages: {
+                'Customer.Firstname': 'Lütfen Adı Giriniz',
+                'Customer.Lastname': 'Lütfen Soyadı Giriniz',
+                'Customer.Email': 'Lütfen Email Giriniz',
+                'Customer.Telephone':'Lütfen Telefon Numarasını Giriniz'
+            },
+            highlight: function (element) {
+                $(element).parent().addClass('has-danger');
+            },
+            unhighlight: function (element) {
+                $(element).parent().removeClass('has-danger');
+            }
+        })
+    }
+</script>
+

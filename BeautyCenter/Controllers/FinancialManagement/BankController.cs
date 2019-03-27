@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using BeautyCenter.Models.Bank;
-using Kendo.Mvc.Extensions;
-using Kendo.Mvc.UI;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeautyCenter.Controllers.FinancialManagement
@@ -26,7 +24,7 @@ namespace BeautyCenter.Controllers.FinancialManagement
             return View("~/Views/FinancialManagement/Bank/Accounts.cshtml");
         }
 
-        public IActionResult Accounts_Read([DataSourceRequest] DataSourceRequest request)
+        public IActionResult Accounts_Read()
         {
 
             decimal bankAmount = 250.789M;
@@ -38,18 +36,18 @@ namespace BeautyCenter.Controllers.FinancialManagement
                 new AccountVm(3,"Ziraat Bank",bankAmount),
                 new AccountVm(4,"Garanti Bank",bankAmount)
             };
-            return Json(accounts.ToDataSourceResult(request));
+            return Json(accounts);
         }
 
 
-        public IActionResult Accounts_Create([DataSourceRequest] DataSourceRequest request,AccountVm account)
+        public IActionResult Accounts_Create(AccountVm account)
         {
 
             decimal finansBank = 203.789M;
 
             AccountVm newAccount = new AccountVm(7,"Finans Bank", finansBank);
             
-            return Json(new[] { newAccount }.ToDataSourceResult(request));
+            return Json(new[] { newAccount });
         }
     }
 }
