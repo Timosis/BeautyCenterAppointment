@@ -4,12 +4,14 @@ using BeautyCenter.Data.Config.Identity;
 using BeautyCenter.Data.Config.Installments;
 using BeautyCenter.Data.Config.Operations;
 using BeautyCenter.Data.Config.Payments;
+using BeautyCenter.Data.Config.ProductsAndServices;
 using BeautyCenter.Data.Entities.Appointments;
 using BeautyCenter.Data.Entities.Customers;
 using BeautyCenter.Data.Entities.Identity;
 using BeautyCenter.Data.Entities.Installments;
 using BeautyCenter.Data.Entities.Operations;
 using BeautyCenter.Data.Entities.Payments;
+using BeautyCenter.Data.Entities.ProductsAndServices;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -77,6 +79,13 @@ namespace BeautyCenter.Data.Context
 
         #endregion
 
+        #region ProductsAndServices
+
+        public DbSet<Service> Service { get; set; }
+
+        #endregion
+
+
         public virtual void Save()
         {
             base.SaveChanges();
@@ -136,6 +145,13 @@ namespace BeautyCenter.Data.Context
             modelBuilder.ApplyConfiguration(new PaymentConfig());
 
             #endregion
+
+            #region ProductsAndServicesConfig
+
+            modelBuilder.ApplyConfiguration(new ServiceConfig());
+
+            #endregion
+
         }
 
     }

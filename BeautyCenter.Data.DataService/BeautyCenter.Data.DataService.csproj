@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BeautyCenter.Common.Types\BeautyCenter.Common.Types.csproj" />
     <ProjectReference Include="..\BeautyCenter.Data.Context\BeautyCenter.Data.Context.csproj" />
     <ProjectReference Include="..\BeautyCenter.Data.Entities\BeautyCenter.Data.Entities.csproj" />
   </ItemGroup>

@@ -1,0 +1,213 @@
+﻿@model BeautyCenter.Models.Customer.CustomerDetail.CustomerOperationDetailsVm
+
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Seanslar</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div id="OperationDetails" class="modal-body">
+
+    @for (int i = 0; i < Model.CustomerOperationDetails.Count; i++)
+    {
+
+            <div id="@("OperationDetail" + Model.CustomerOperationDetails[i].Id)">
+                <div id="Detail">
+                    <div class="m-alert m-alert--icon alert alert-danger m--hide" role="alert" id="updateFormValidationMessage">
+                        <div class="m-alert__icon">
+                            <i class="la la-warning"></i>
+                        </div>
+                        <div class="m-alert__text">
+                            Hay Aksi! Aşağıdaki bilgilerinden bazılarını doldurmayı unutmuş olmalısın.
+                        </div>
+                        <div class="m-alert__close">
+                            <button type="button" class="close" data-close="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+
+                    <div class="m-portlet m-portlet--brand m-portlet--head-solid-bg m-portlet--bordered">
+                        <div class="m-portlet__head">
+                            <div class="m-portlet__head-caption">
+                                <div class="m-portlet__head-title">
+                                    <h3 class="m-portlet__head-text">
+                                        @Model.CustomerOperationDetails[i].Id . Seans
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-portlet__body">
+                            <form id="@("OperationDetailForm" + Model.CustomerOperationDetails[i].Id)" asp-controller="Customer" asp-action="Customer_Create" data-ajax="true" data-ajax-method="post" class="m-form m-form--state">
+                                <div class="form-group m-form__group row">
+                                    <div class="col-lg-4">
+                                        <label for="recipient-name" class="form-control-label">İşlem Tarihi</label>
+                                        <input asp-for="CustomerOperationDetails[i].DateTime" type="text" class="form-control" id="@("SessionDate" + Model.CustomerOperationDetails[i].Id)" aria-required="true">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label for="message-text" class="form-control-label">Seans Türü</label>
+                                        <input asp-for="CustomerOperationDetails[i].SeanceType" type="text" class="form-control m-input" id="@("SeanceType" + Model.CustomerOperationDetails[i].Id)" aria-required="true">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label for="message-text" class="form-control-label">Açıklama</label>
+                                        <input asp-for="CustomerOperationDetails[i].Description" type="text" class="form-control m-input" id="@("Description" + Model.CustomerOperationDetails[i].Id)" aria-required="true">
+                                    </div>
+                                </div>
+                                <div class="form-group m-form__group row">
+                                    <div class="col-lg-4">
+                                        <label for="recipient-name" class="form-control-label">Bölge Seçiniz</label>
+                                        <input asp-for="CustomerOperationDetails[i].Area" type="text" class="form-control" id="@("Area" + Model.CustomerOperationDetails[i].Id)" aria-required="true">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label for="message-text" class="form-control-label">Atış Tozu</label>
+                                        <input asp-for="CustomerOperationDetails[i].ShotDose" type="text" class="form-control m-input" id="@("ShotDose" + Model.CustomerOperationDetails[i].Id)" aria-required="true">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <label for="message-text" class="form-control-label">Atış Sayısı</label>
+                                        <input asp-for="CustomerOperationDetails[i].ShotNumber" type="text" class="form-control m-input" id="@("ShotNumber" + Model.CustomerOperationDetails[i].Id)" aria-required="true">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="m-portlet__foot">
+                            <div class="row align-items-center">
+                                <div class="col-lg-6 m--valign-middle">
+                                </div>
+                                <div class="col-lg-6 m--align-right">
+                                    <button type="submit" id="@("SaveSession" + Model.CustomerOperationDetails[i].Id)" class="btn btn-outline-primary">Kaydet</button>
+                                    <span class="m--margin-left-5"> <button id="@("RemoveSession" + Model.CustomerOperationDetails[i].Id)" type="submit" class="btn btn-outline-danger">Sil</button></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    }
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+    <button id="btnSessionAdd" type="submit" class="btn btn-primary">Seans Ekle</button>
+</div>
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        debugger;
+        var countOfSessions = $("div[id='Detail']").length
+
+        for (var i = 0; i < countOfSessions; i++) {
+            $('#SessionDate' + i).datetimepicker({
+                autoclose: true,
+                format: 'dd.mm.yyyy hh:ii',
+                language: 'tr',
+                startDate: new Date()
+            }).on('changeDate', function (ev) {
+                $(this).datetimepicker('hide');
+            });
+        }
+
+        $('#btnSessionAdd').click(function (e) {
+            debugger;
+            var lastFormId = $('#OperationDetails').children().last().attr('id');
+            var id = parseInt(lastFormId[lastFormId.length - 1]);
+            var addedForm = GetForm(id);
+
+            $(addedForm).hide().appendTo("#OperationDetails").slideDown("slow");
+        });
+
+        $('#OperationDetails').on('click', 'button', function () {  
+
+            var clickedButtonIdOnForm = $(this).attr('id');
+            var id = parseInt(clickedButtonIdOnForm[clickedButtonIdOnForm.length - 1]);
+            var buttonType = clickedButtonIdOnForm.substring(0, clickedButtonIdOnForm.length - 1);
+
+            if (buttonType ==  'RemoveSession') {                
+                $('#OperationDetail' + id).slideUp("slow", function () {
+                    $('#OperationDetail' + id).remove();
+                });
+
+                //TODO ajax Eklenecek
+            }
+            if (buttonType == 'SaveSession') {
+
+                //TODO ajax Eklenecek
+            }
+
+        }); 
+
+    });
+
+    function GetForm(id) {
+        return html =
+             '<div id="OperationDetail'+ (id + 1)+'">' +
+                '<div class="m-alert m-alert--icon alert alert-danger m--hide" role="alert" id="updateFormValidationMessage">'+
+                    '<div class="m-alert__icon">'+
+                        '<i class="la la-warning"></i>'+
+                    '</div>'+
+                    '<div class="m-alert__text">'+
+                        'Hay Aksi! Aşağıdaki bilgilerinden bazılarını doldurmayı unutmuş olmalısın.'+
+                    '</div>'+
+                    '<div class="m-alert__close">'+
+                        '<button type="button" class="close" data-close="alert" aria-label="Close"></button>'+
+                    '</div>'+
+                '</div>'+
+
+                '<div class="m-portlet m-portlet--brand m-portlet--head-solid-bg m-portlet--bordered">'+
+                    '<div class="m-portlet__head">'+
+                        '<div class="m-portlet__head-caption">'+
+                            '<div class="m-portlet__head-title">'+
+                                '<h3 class="m-portlet__head-text">'+
+                                   '' + (id + 1) + '' + ' . Seans' +
+                                '</h3>'+
+                            '</div>'+
+                        '</div>'+
+                    '</div>'+
+                    '<div class="m-portlet__body">'+
+                       '<form id="OperationDetailForm' + (id + 1) +'" data-ajax="true" data-ajax-method="post" class="m-form m-form--state">'+
+                            '<div class="form-group m-form__group row">'+
+                                '<div class="col-lg-4">'+
+                                    '<label for="recipient-name" class="form-control-label">İşlem Tarihi</label>'+
+                                    '<input  type="text" class="form-control" id="SessionDate' + (id + 1) +'"  aria-required="true">'+
+                                '</div>'+
+                                '<div class="col-lg-4">' +
+                                    '<label for="message-text" class="form-control-label">Seans Türü</label>' + 
+                                    '<input type="text" class="form-control m-input" id="SeanceType' + (id + 1) +'"  aria-required="true">' + 
+                                '</div>' +
+                                '<div class="col-lg-4">' + 
+                                    '<label for="message-text" class="form-control-label">Açıklama</label>' +
+                                    '<input type="text" class="form-control m-input" id="Description' + (id + 1) +'" aria-required="true">'+
+                                '</div>' +
+                            '</div>' +
+                            '<div class="form-group m-form__group row">' +
+                                '<div class="col-lg-4">' + 
+                                    '<label for="recipient-name" class="form-control-label">Bölge Seçiniz</label>' +
+                                    '<input  type="text" class="form-control" id="Area' + (id + 1) +'"  aria-required="true">' +
+                                '</div>' + 
+                                '<div class="col-lg-4">' +
+                                    '<label for="message-text" class="form-control-label">Atış Tozu</label>'+
+                                    '<input  type="text" class="form-control m-input" id="ShotDose' + (id + 1) +'" aria-required="true">' +
+                                '</div>'+
+                                '<div class="col-lg-4">' +
+                                    '<label for="message-text" class="form-control-label">Atış Sayısı</label>'+
+                                    '<input type="text" class="form-control m-input" id="ShotNumber' + (id + 1) +'" aria-required="true">' +
+                                '</div>' +
+                            '</div>' +
+                        '</form>' +
+                    '</div>' +
+                    '<div class="m-portlet__foot">' +
+                        '<div class="row align-items-center">' +
+                            '<div class="col-lg-6 m--valign-middle">' +
+                            '</div>'+
+                            '<div class="col-lg-6 m--align-right">' +
+                                '<button type="submit" id="SaveSession' + (id + 1) +'" class="btn btn-outline-primary">Kaydet</button>'+
+                                '<span class="m--margin-left-5"> <button id="RemoveSession' + (id + 1) +'" type="submit" class="btn btn-outline-danger">Sil</button></span>'+
+                            '</div>'+
+                        '</div>'+
+                    '</div>'+
+                '</div>';
+
+    }
+
+</script>
+

@@ -23,6 +23,7 @@ namespace BeautyCenter.Common.Infra
         public const string Customer_TheCustomerYouWantToDeleteWasNotFound = "Customer_TheCustomerYouWantToDeleteWasNotFound";
         public const string Customer_Common_ErrorOccuredWhileUpdatingCustomer = "Customer_Common_ErrorOccuredWhileUpdatingCustomer";
 
+        public const string Service_TheServiceYouWantToDeleteWasNotFound = "Service_TheServiceYouWantToDeleteWasNotFound";
 
 
         public const string Identity_Login_EmailCanNotBeEmpty = "Identity_Login_EmailCanNotBeEmpty";

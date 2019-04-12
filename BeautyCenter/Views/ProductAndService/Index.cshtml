@@ -1,7 +1,173 @@
-﻿
-@{
-    ViewData["Title"] = "Index";
-}
+﻿<div class="m-portlet m-portlet--mobile">
+    <div class="m-portlet__head">
+        <div class="m-portlet__head-caption">
+            <div class="m-portlet__head-title">
+                <h3 class="m-portlet__head-text">
+                    İşlemler
+                </h3>
+            </div>
+        </div>
+        <div class="m-portlet__head-tools">
+            <ul class="m-portlet__nav">
+                <li class="m-portlet__nav-item">
+                    <a asp-controller="ProductAndService" asp-action="Service_Add" id="newService" class="btn btn-accent m-btn m-btn--custom m-btn--pill m-btn--icon m-btn--air" data-toggle="modal" data-target="#m_modal_general">
+                        <span>
+                            <i class="la la-plus"></i>
+                            <span>Yeni İşlem</span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="m-portlet__body">
+        <!--begin: Datatable -->
+        <table class="table table-striped- table-bordered table-hover table-checkable" id="service_table">
+            <thead>
+                <tr>
+                    <th>İşlem Adı</th>
+                    <th>İşlem Süresi (Dk)</th>
+                    <th>İşlem Tutarı</th>
+                    <th>İşlem Rengi</th>
+                    <th>İşlemler</th>
 
-<h2>Index</h2>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#service_table').dataTable({
+            "ajax": {
+                "url": "/ProductAndService/Service_Read/",
+                "dataSrc": ""
+            },
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Turkish.json",
+            },
+            "columns": [
+                { "data": "Name" },
+                { "data": "Duration" },
+                {
+                    "data": "Amount",
+                    "render": function (data, type, row) {
+                        return data + ' <i class="fas fa-lira-sign fa-1x"></i>';
+                    }
+                },
+                { "data": "ColorClass" },
+                {
+                    "data": null,
+                    render: function (data, type, row) {
+                        return '<a href="#" id="ServiceEdit" onClick = "serviceEdit(' + data.Id + ');" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Güncelle" data-toggle="modal" data-target="#m_modal_general"><i class="la la-edit"></i><a href="#" id="ServiceDelete" onClick = "serviceDelete(' + data.Id + ');" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Sil"><i class="la la-trash"></i></a>';
+                    },
+                    "targets": -1
+                }
+            ]
+        });
+
+    });
+
+    function serviceDelete(serviceId) {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-danger',
+                cancelButton: 'btn btn-secondary'
+            },
+            buttonsStyling: false,
+        })
+        swalWithBootstrapButtons.fire({
+            title: 'Silmek istediğine emin misin?',
+            text: "İşlem tekrar geri alınmayacaktır!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Evet, Sil!',
+            cancelButtonText: 'Hayır, İptal et!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "POST",
+                    url: "/ProductAndService/Service_Delete",
+                    data: { serviceId: serviceId },
+                    cache: false,
+                    success: function (response) {
+                        Swal.fire(
+                            "Başarılı!",
+                            "Silme İşleminiz Başarıyla Gerçekleştirilmiştir.",
+                            "success"
+                        ).then(function () {
+                            location.reload();
+                        })
+
+                    },
+                    failure: function (response) {
+                        Swal.fire(
+                            "Hata!",
+                            "Oops, İşleminizi Gerçekleştirirken Bir Hata Oluştu.", // had a missing comma
+                            "error"
+                        )
+                    }
+                })
+            }
+        } )
+    }
+
+    function serviceEdit(serviceId) {
+        $.ajax({
+            type: "GET",
+            url: "/ProductAndService/Service_Update",
+            contentType: "application/json; charset=utf-8",
+            data: { serviceId: serviceId},
+            datatype: "json",
+            success: function (data) {
+                $('#generalModal').html(data);
+            },
+            error: function () {
+                alert("Dynamic content load failed.");
+            }
+        });
+    }
+
+    $(function () {
+        $("#updateCommand").click(function (e) {
+            var $buttonClicked = $(this);
+            debugger;
+            $.ajax({
+                type: "GET",
+                url: "/ProductAndService/Service_Update",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                success: function (data) {
+                    $('#generalModal').html(data);
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+            });
+        });
+    });
+
+    $(function () {
+        $("#newService").click(function () {
+            debugger;
+            var $buttonClicked = $(this);
+            $.ajax({
+                type: "GET",
+                url: "/ProductAndService/Service_Add",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                success: function (data) {
+                    $('#generalModal').html(data);
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
+            });
+        });
+    });
+</script>
+
 

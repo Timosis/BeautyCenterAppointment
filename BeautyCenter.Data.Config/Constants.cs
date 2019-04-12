@@ -15,7 +15,8 @@ namespace BeautyCenter.Data.Config
             public const string Installment = "Installement";
             public const string Operation = "Operation";
             public const string Payment = "Payment";
-            public const string Diciplinary = "Diciplinary";
+            public const string Service = "Service";
+
         }
 
         internal class DataTypes

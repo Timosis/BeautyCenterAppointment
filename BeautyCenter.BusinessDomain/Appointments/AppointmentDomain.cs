@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using BeautyCenter.Common.Types.Dto.Appointment;
 using BeautyCenter.Data.Entities.Appointments;
+using BeautyCenter.Data.Entities.Enums;
 
 namespace BeautyCenter.BusinessDomain.Appointments
 {
@@ -14,10 +15,14 @@ namespace BeautyCenter.BusinessDomain.Appointments
 
             appointment.Title = appointmentDto.Title;
             appointment.StartTime = appointmentDto.StartTime;
-            appointment.EndTime = appointmentDto.EndTime;
+            appointment.EndTime = appointment.StartTime.AddMinutes(appointmentDto.Service.Duration);
             appointment.IsFullDay = appointmentDto.IsFullDay;
-            appointment.Color = appointmentDto.Color;
+            appointment.Color = "Blue";
+            appointment.ServiceId = appointmentDto.ServiceId;
             appointment.CustomerId = appointmentDto.CustomerId;
+            appointment.CreatedAt = DateTime.Now;
+            appointment.ModifiedAt = DateTime.Now;
+            appointment.AppointmentStatus = AppointmentStatus.Active;
 
             return appointment;
         }

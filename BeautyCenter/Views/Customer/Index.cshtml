@@ -44,7 +44,7 @@
     $(document).ready(function () {
         $('#m_table_1').dataTable({
             "ajax": {
-                "url": "/Customer/Customers_Read/",
+                "url": "/Customer/Customers_Read",
                 "dataSrc": ""
             },
             "language": {
@@ -60,7 +60,7 @@
                 {
                     "data": null,
                     render: function (data, type, row) {
-                        return '<a href="#" id="CustomerDetail" onClick = "customerDetail();" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Görüntüle" data-toggle="modal" data-target="#m_modal_general"><i class="la la-search"></i></a><a href="#" id="CustomerEdit" onClick = "customerEdit(' + data.Id + ');" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Güncelle" data-toggle="modal" data-target="#m_modal_general"><i class="la la-edit"></i><a href="#" id="CustomerDelete" onClick = "customerDelete(' + data.Id + ');" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Sil"><i class="la la-trash"></i></a>';
+                        return '<a href="#" id="CustomerDetail" onClick = "customerDetail(' + data.Id +');" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Görüntüle" data-toggle="modal" data-target="#m_modal_general"><i class="la la-search"></i></a><a href="#" id="CustomerEdit" onClick = "customerEdit(' + data.Id + ');" class="m-portlet__nav-link btn m-btn m-btn--hover-brand m-btn--icon m-btn--icon-only m-btn--pill" title="Güncelle" data-toggle="modal" data-target="#m_modal_general"><i class="la la-edit"></i><a href="#" id="CustomerDelete" onClick = "customerDelete(' + data.Id + ');" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Sil"><i class="la la-trash"></i></a>';
                     },
                     "targets": -1
                 }
@@ -131,8 +131,8 @@
         });
     }
 
-    function customerDetail() {
-        var url = '@Url.Action("CustomerDetail", "Customer")';
+    function customerDetail(customerId) {
+        var url = '@Url.Action("CustomerDetail", "Customer")?customerId=' + customerId;
         window.location.href = url;
     }
 

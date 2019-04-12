@@ -8,52 +8,33 @@
 </div>
 
 <div class="modal-body">
-
     <ul class="nav nav-pills nav-fill" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#m_tabs_5_1">Kayıtlı Müşteri</a>
+            <a class="nav-link active" data-toggle="tab" href="#m_tabs_5_1" id="SavedCustomerTab">Kayıtlı Müşteri</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#m_tabs_5_2">Yeni Müşteri</a>
+            <a class="nav-link" data-toggle="tab" href="#m_tabs_5_2" id="NewCustomerTab">Yeni Müşteri</a>
         </li>
     </ul>
 
+    <div class="m-alert m-alert--icon alert alert-danger m--hide" role="alert" id="appointmentValidateAlertMessage">
+        <div class="m-alert__icon">
+            <i class="la la-warning"></i>
+        </div>
+        <div class="m-alert__text">
+            Hay Aksi! Aşağıdaki bilgilerinden bazılarını doldurmayı unutmuş olmalısın.
+        </div>
+        <div class="m-alert__close">
+            <button type="button" class="close" data-close="alert" aria-label="Close"></button>
+        </div>
+    </div>
+
     <div class="tab-content">
         <div class="tab-pane active" id="m_tabs_5_1" role="tabpanel">
-            <form id="forSavedCustomer" asp-controller="Appointment" asp-action="Appointment_Create" method="post">
-                <div class="form-group">
-                    <label for="recipient-name" class="form-control-label">Müşteri Arama</label><br />
-                    <select id="autocomplete" class="form-control" style="width: 100%"></select>
-                </div>
-                <div class="form-group">
-                    <label for="message-text" class="form-control-label">Tarih</label>
-                    <input asp-for="Appointment.StartTime" type="text" class="form-control" id="DatetimepickerForNewAppointment" readonly placeholder="Tarih Seçiniz" />
-                </div>
-                <div class="form-group">
-                    <label for="recipient-name" class="form-control-label">Birim</label>
-                    <input asp-for="Appointment.Department" type="text" class="form-control" id="department" placeholder="Birim Seçiniz">
-                </div>
-                <div class="form-group">
-                    <label for="recipient-name" class="form-control-label">Açıklama</label>
-                    <input asp-for="Appointment.Description" type="text" class="form-control" id="description" placeholder="Açıklama Giriniz">
-                </div>
-            </form>
+
         </div>
         <div class="tab-pane" id="m_tabs_5_2" role="tabpanel">
-            <form id="forNewCustomer">
-                <div class="form-group">
-                    <label for="recipient-name" class="form-control-label">Ad</label>
-                    <input type="text" class="form-control" id="firstname" placeholder="Ad Giriniz">
-                </div>
-                <div class="form-group">
-                    <label for="recipient-name" class="form-control-label">Soyad</label>
-                    <input type="text" class="form-control" id="lastname" placeholder="Soyad Giriniz">
-                </div>
-                <div class="form-group">
-                    <label for="message-text" class="form-control-label">Tarih</label>
-                    <input type="text" class="form-control" id="DatetimepickerForNewCustomer" readonly placeholder="Tarih Seçiniz" />
-                </div>
-            </form>
+
         </div>
     </div>
 
@@ -61,59 +42,91 @@
 
 <div class="modal-footer">
     <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
-    <button id="save" type="button" class="btn btn-primary">Kaydet</button>
+    <button id="SaveAppointment" type="button" class="btn btn-primary">Kaydet</button>
 </div>
 
 <script type="text/javascript">
     $(document).ready(function () {
-    
-        $('#DatetimepickerForNewAppointment').datetimepicker({
-            autoclose: true,
-            format: 'dd/mm/yyyy hh:ii',
-            language: 'tr',
-        }).on('changeDate', function (ev) {
-            $(this).datetimepicker('hide');
+
+        var activeTab = $(".nav-fill a.active");
+
+        if (activeTab[0].id == 'SavedCustomerTab') {
+            $.ajax({
+                type: "GET",
+                url: "/Appointment/Appointment_SavedCustomerTab",
+                contentType: "application/json; charset=utf-8",
+                datatype: "json",
+                success: function (data) {
+                    $('#m_tabs_5_1').html(data);
+                },
+                error: function () {
+                    alert("Dynamic content load failed.");
+                }
             });
-
-        $('#DatetimepickerForNewCustomer').datetimepicker({
-            autoclose: true,
-            format: 'dd/mm/yyyy hh:ii',
-            language: 'tr',
-        }).on('changeDate', function (ev) {
-            $(this).datetimepicker('hide');
-            });
-
-        $('#autocomplete').select2({
-            placeholder: "Ad Giriniz...",
-            minimumInputLength: 3,
-            ajax: {
-                type: 'POST',
-                url: '/Customer/GetCustomers',
-                dataType: 'json',
-                data: function (params) {
-                    return {
-                        text: params.term 
-                    };
-                },
-                processResults: function (reponse) {                    
-                    return {
-                        results: $.map(reponse, function (obj) {
-                            return { id: obj.id, text: obj.Firstname + " " + obj.Lastname }
-                        })
-                    };
-                },
-                formatSelection: function (element) {
-                    return element.text + ' (' + element.id + ')';
-                },
-            }
-        });
-
-
-        $("#save").click(function () {
-            $("#savedCustomer").submit();
         }
-        );
+
+        if (activeTab[0].id == 'SavedCustomerTab') {
+            $("#SaveAppointment").click(function () {
+                $("#forSavedCustomer").submit();
+            });
+        }
+
     });
+
+    $(function () {
+
+        $('.nav-fill a').on('show.bs.tab', function (e) { 
+
+            var alert = $('#appointmentValidateAlertMessage');
+            alert.removeClass('m--hide').hide();
+
+            if (e.target.id == 'NewCustomerTab') {
+                $("#forSavedCustomer").data('validator').resetForm();
+
+                $.ajax({
+                    type: "GET",
+                    url: "/Appointment/Appointment_NewCustomerTab",
+                    contentType: "application/json; charset=utf-8",
+                    datatype: "json",
+                    success: function (data) {
+                        $('#m_tabs_5_2').html(data);
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            }
+            
+            if (e.target.id == 'SavedCustomerTab') {
+                $("#forNewCustomer").data('validator').resetForm();
+
+                $.ajax({
+                    type: "GET",
+                    url: "/Appointment/Appointment_SavedCustomerTab",
+                    contentType: "application/json; charset=utf-8",
+                    datatype: "json",
+                    success: function (data) {
+                        $('#m_tabs_5_1').html(data);
+                    },
+                    error: function () {
+                        alert("Dynamic content load failed.");
+                    }
+                });
+            }
+
+            if (e.target.id == 'NewCustomerTab') {
+                $("#SaveAppointment").click(function () {
+                    $("#forNewCustomer").submit();
+                });
+            }
+            if (e.target.id == 'SavedCustomerTab') {
+                $("#SaveAppointment").click(function () {
+                    $("#forSavedCustomer").submit();
+                });
+            }
+        })
+    });
+
 </script>
 
 

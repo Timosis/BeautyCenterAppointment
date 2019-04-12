@@ -1,0 +1,136 @@
+﻿@model BeautyCenter.Models.Appointment.AddAppointmentVm
+
+<form id="forNewCustomer" asp-controller="Appointment" asp-action="Appointment_Create" class="m-form m-form--state" method="post">
+    <div class="form-group">
+        <label for="recipient-name" class="form-control-label">Ad</label>
+        <input asp-for="Appointment.Customer.Firstname" type="text" class="form-control" id="Firstname" placeholder="Ad Giriniz" aria-required="true">
+    </div>
+    <div class="form-group">
+        <label for="recipient-name" class="form-control-label">Soyad</label>
+        <input asp-for="Appointment.Customer.Lastname" type="text" class="form-control" id="Lastname" placeholder="Soyad Giriniz" aria-required="true">
+    </div>
+    <div class="form-group">
+        <label for="message-text" class="form-control-label">Email</label>
+        <input asp-for="Appointment.Customer.Email" type="text" class="form-control" id="Email"  placeholder="Email Giriniz" aria-required="true" />
+    </div>
+
+    <div class="form-group">
+        <label for="message-text" class="form-control-label">Telefon</label>
+        <input asp-for="Appointment.Customer.Telephone" type="text" class="form-control" id="Telephone" placeholder="Telefon Giriniz" aria-required="true" />
+    </div>
+    <div class="form-group">
+        <label for="recipient-name" class="form-control-label">İşlem</label>
+        <select asp-for="Appointment.ServiceId" id="autocompleteForNewCustomerService" class="form-control" style="width: 100%" aria-required="true"></select>
+    </div>
+    <div class="form-group">
+        <label for="message-text" class="form-control-label">Tarih</label>
+        <input asp-for="Appointment.StartTime" type="text" class="form-control" id="StartTimeForNewCustomer" readonly placeholder="Tarih Seçiniz" aria-required="true" />
+    </div>
+    <div class="form-group">
+        <label for="recipient-name" class="form-control-label">Açıklama</label>
+        <input asp-for="Appointment.Description" type="text" class="form-control" id="Description" placeholder="Açıklama Giriniz" aria-required="true">
+    </div>
+</form>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#StartTimeForNewCustomer').datetimepicker({
+            autoclose: true,
+            format: 'dd/mm/yyyy hh:ii',
+            language: 'tr',
+        }).on('changeDate', function (ev) {
+            $(this).datetimepicker('hide');
+            });
+
+        $('#autocompleteForNewCustomerService').select2({
+            placeholder: "Yapılacak İşlemleri Giriniz...",
+            ajax: {
+                type: 'GET',
+                url: '/ProductAndService/Service_Read',
+                dataType: 'json',
+                processResults: function (reponse) {
+                    return {
+                        results: $.map(reponse, function (obj) {
+                            return { id: obj.Id, text: obj.Name }
+                        })
+                    };
+                }
+            }
+        });
+
+        ValidateAddAppointmentforNewCustomer();
+
+    });
+
+    function ValidateAddAppointmentforNewCustomer() {
+        $("#forNewCustomer").validate({
+            rules: {
+                "Appointment.Customer.Firstname": {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20
+                },
+
+                "Appointment.Customer.Lastname": {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20
+                },
+                "Appointment.Customer.Email": {
+                    required: true,
+                    email: true
+                },
+                "Appointment.Customer.Telephone": {
+                    required: true,
+                    digits: true
+                },
+                "Appointment.ServiceId": {
+                    required: true
+                },
+                "Appointment.StartTime": {
+                    required: true,                    
+                },
+                "Appointment.Description": {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20
+                },
+            },
+
+            //display error alert on form submit  
+            invalidHandler: function (event, validator) {
+                mUtil.scrollTo("forNewCustomer", -200);
+                var alert = $('#appointmentValidateAlertMessage');
+                alert.removeClass('m--hide').show();
+                mUtil.scrollTop();
+            },
+            messages: {
+
+                "Appointment.Customer.Firstname": "Lütfen Adı Giriniz",
+
+                "Appointment.Customer.Lastname": "Lütfen Soyadı Giriniz",
+
+                "Appointment.Customer.Email": "Lütfen Email Adresi Seçiniz",
+
+                "Appointment.Customer.Telephone": "Lütfen Telefon Giriniz",
+
+                "Appointment.Department": "Lütfen Birimi Giriniz",
+
+                "Appointment.StartTime": "Lütfen Tarih Bilgilerini Giriniz",
+
+                "Appointment.Description": "Lütfen Açıklama Giriniz",
+
+            },
+            highlight: function (element) {
+                $(element).parent().addClass('has-danger');
+            },
+            unhighlight: function (element) {
+                $(element).parent().removeClass('has-danger');
+            }
+        });
+    }
+
+</script>

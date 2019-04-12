@@ -10,8 +10,6 @@ namespace BeautyCenter.Common.Infra.DataLayer
 {
     public interface IReadOnlyRepository
     {
-        //TODO Generic Custom Sql sorgusu için metod eklenecek.
-
         IQueryable<TEntity> GetQueryable<TEntity>(
             Expression<Func<TEntity, bool>> filter = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,

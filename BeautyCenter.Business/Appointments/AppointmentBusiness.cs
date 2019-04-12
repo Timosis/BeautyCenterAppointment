@@ -12,12 +12,16 @@ using BeautyCenter.Data.DataService.Appointments;
 using BeautyCenter.Data.Entities.Appointments;
 using System.Threading.Tasks;
 using BeautyCenter.Common.Infra;
+using BeautyCenter.Common.Types.Dto.ProductsAndServices;
 
 namespace BeautyCenter.Business.Appointments
 {
     public interface IAppointmentBusiness
     {
         Task<CommandResponse<AppointmentDto>> SaveAppointment(SaveAppointmentCommand command);
+
+        Task<CommandResponse<List<AppointmentDto>>> GetAllAppointments(GetAllAppointmentsCommand command);
+
     }
 
     public class AppointmentBusiness : BaseBusiness, IAppointmentBusiness
@@ -29,6 +33,51 @@ namespace BeautyCenter.Business.Appointments
             this.appointmentDataService = appointmentDataService;     
         }
 
+        public async Task<CommandResponse<List<AppointmentDto>>> GetAllAppointments(GetAllAppointmentsCommand command)
+        {
+            CommandResponse<List<AppointmentDto>> response = new CommandResponse<List<AppointmentDto>>(command);
+            if (response.HasError)
+                return AppError(response, response.Code);
+
+            try
+            {
+                List<AppointmentDto> appointments = new List<AppointmentDto>();
+                var result = await appointmentDataService.GetAllAppointments();
+
+                if (result.Count > 0)
+                {
+                    result.ForEach(a =>
+                    {
+                        appointments.Add(new AppointmentDto
+                        {
+                            CustomerId = a.CustomerId,
+                            Color = a.Color,
+                            Description = a.Description,
+                            StartTime = a.StartTime,
+                            EndTime = a.EndTime,
+                            Id = a.Id,
+                            IsFullDay = a.IsFullDay,
+                            Title = a.Title,
+                            ServiceId = a.ServiceId,
+                            Service = new ServiceDto {
+                                Id = a.Service.Id,
+                                Name = a.Service.Name,
+                                Duration = a.Service.Duration,
+                                Amount = a.Service.Amount,
+                                ColorClass = a.Service.ColorClass
+                            }
+                        });
+                    });
+                }
+                return Ok(response, appointments);
+
+            }
+            catch (Exception ex)
+            {
+                return ServerError(response, ErrorCodes.Common_ErrorWhileGettingData, ex);
+            }
+        }
+
         public async Task<CommandResponse<AppointmentDto>> SaveAppointment(SaveAppointmentCommand command)
         {
             CommandResponse<AppointmentDto> response = new CommandResponse<AppointmentDto>(command);
@@ -36,7 +85,6 @@ namespace BeautyCenter.Business.Appointments
                 return AppError(response, response.Code);
         
             var appointment = AppointmentDomain.Create(command.Appointment);
-
 
             try
             {
@@ -50,7 +98,6 @@ namespace BeautyCenter.Business.Appointments
             return Ok(response, Mapper.Map<Appointment,AppointmentDto >(appointment));
 
         }
+
     }
-
-
 }

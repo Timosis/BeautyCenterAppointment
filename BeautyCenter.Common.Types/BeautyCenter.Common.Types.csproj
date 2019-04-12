@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BeautyCenter.Common.Utils\BeautyCenter.Common.Utils.csproj" />
+    <ProjectReference Include="..\BeautyCenter.Data.Entities\BeautyCenter.Data.Entities.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -25,6 +25,8 @@ namespace BeautyCenter.Data.Context.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("AppointmentStatus");
+
                     b.Property<string>("Color")
                         .IsRequired()
                         .HasColumnType("varchar(150)")
@@ -51,6 +53,8 @@ namespace BeautyCenter.Data.Context.Migrations
 
                     b.Property<int>("ModifiedBy");
 
+                    b.Property<int>("ServiceId");
+
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime");
 
@@ -62,6 +66,8 @@ namespace BeautyCenter.Data.Context.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("ServiceId");
 
                     b.ToTable("Appointment","Appointment");
                 });
@@ -476,10 +482,6 @@ namespace BeautyCenter.Data.Context.Migrations
                     b.Property<DateTime>("Datetime")
                         .HasColumnType("datetime");
 
-                    b.Property<string>("Department")
-                        .IsRequired()
-                        .HasColumnType("varchar(150)");
-
                     b.Property<bool>("IsDeleted");
 
                     b.Property<bool>("IsPaid")
@@ -491,9 +493,13 @@ namespace BeautyCenter.Data.Context.Migrations
 
                     b.Property<int>("PaymentType");
 
+                    b.Property<int>("ServiceId");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("ServiceId");
 
                     b.ToTable("Operation","Operation");
                 });
@@ -578,11 +584,56 @@ namespace BeautyCenter.Data.Context.Migrations
                     b.ToTable("Payment","Payment");
                 });
 
+            modelBuilder.Entity("BeautyCenter.Data.Entities.ProductsAndServices.Service", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal")
+                        .HasMaxLength(150);
+
+                    b.Property<string>("ColorClass")
+                        .IsRequired()
+                        .HasColumnType("varchar(150)")
+                        .HasMaxLength(150);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("CreatedBy");
+
+                    b.Property<int>("Duration")
+                        .HasColumnType("int")
+                        .HasMaxLength(150);
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime>("ModifiedAt");
+
+                    b.Property<int>("ModifiedBy");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(150)")
+                        .HasMaxLength(150);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Service","Service");
+                });
+
             modelBuilder.Entity("BeautyCenter.Data.Entities.Appointments.Appointment", b =>
                 {
                     b.HasOne("BeautyCenter.Data.Entities.Customers.Customer", "Customer")
                         .WithMany("Appointments")
                         .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("BeautyCenter.Data.Entities.ProductsAndServices.Service", "Service")
+                        .WithMany()
+                        .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -660,6 +711,11 @@ namespace BeautyCenter.Data.Context.Migrations
                     b.HasOne("BeautyCenter.Data.Entities.Customers.Customer")
                         .WithMany("Operations")
                         .HasForeignKey("CustomerId");
+
+                    b.HasOne("BeautyCenter.Data.Entities.ProductsAndServices.Service", "Service")
+                        .WithMany()
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("BeautyCenter.Data.Entities.Operations.OperationDetail", b =>

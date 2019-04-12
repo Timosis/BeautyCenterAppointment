@@ -1,0 +1,138 @@
+﻿@model BeautyCenter.Models.Appointment.AddAppointmentVm
+<form id="forSavedCustomer" asp-controller="Appointment" asp-action="Appointment_Create" class="m-form m-form--state" method="post">
+    <div class="form-group">
+        <label for="recipient-name" class="form-control-label">Müşteri Arama</label><br />
+        <select asp-for="Appointment.CustomerId" id="autocomplete" class="form-control" style="width: 100%" aria-required="true"></select>
+    </div>
+    <div class="form-group">
+        <label for="message-text" class="form-control-label">Tarih</label>
+        <input asp-for="Appointment.StartTime" type="text" class="form-control" id="StartTimeForSavedCustomer" readonly placeholder="Tarih Seçiniz" aria-required="true" />
+    </div>
+    <div class="form-group">
+        <label for="recipient-name" class="form-control-label">İşlem</label>
+        <select asp-for="Appointment.ServiceId" id="autocompleteForService" class="form-control" style="width: 100%" aria-required="true"></select>
+    </div>
+    <div class="form-group">
+        <label for="recipient-name" class="form-control-label">Açıklama</label>
+        <input asp-for="Appointment.Description" type="text" class="form-control" id="description" placeholder="Açıklama Giriniz" aria-required="true">
+    </div>
+</form>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        debugger;
+        var Duration = $("[name='Appointment.Duration']").val();
+
+        $('#autocomplete').select2({
+            placeholder: "Ad Giriniz...",
+            minimumInputLength: 3,
+            language: {
+                inputTooShort: function () {
+                    return 'En az 3 harf giriniz...';
+                }
+            },
+            ajax: {
+                type: 'POST',
+                url: '/Customer/CustomerSearch',
+                dataType: 'json',
+                data: function (params) {
+                    return {
+                        text: params.term
+                    };
+                },
+                processResults: function (reponse) {
+                    return {
+                        results: $.map(reponse, function (obj) {
+                            debugger;
+                            return { id: obj.Id, text: obj.Firstname + " " + obj.Lastname }
+                        })
+                    };
+                }
+            }
+        });
+
+        $('#autocompleteForService').select2({
+            placeholder: "Yapılacak İşlemleri Giriniz...",           
+            ajax: {
+                type: 'GET',
+                url: '/ProductAndService/Service_Read',
+                dataType: 'json',
+                processResults: function (reponse) {
+                    return {
+                        results: $.map(reponse, function (obj) {
+
+                            return {
+                                id: obj.Id,
+                                text: obj.Name
+                            }
+                        })
+                    };
+                }
+            }
+        });
+
+
+        $('#StartTimeForSavedCustomer').datetimepicker({
+            autoclose: true,
+            format: 'dd/mm/yyyy hh:ii',
+            language: 'tr',
+        }).on('changeDate', function (ev) {
+            $(this).datetimepicker('hide');
+            });
+
+        ValidateAddAppointmentforSavedCustomer();
+
+    });
+
+    function ValidateAddAppointmentforSavedCustomer() {
+        $("#forSavedCustomer").validate({
+            rules: {
+                "Appointment.CustomerId": {
+                    required: true
+                },
+
+                "Appointment.StartTime": {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20
+                },
+                "Appointment.ServiceId": {
+                    required: true,
+                    maxlength: 20
+                },
+                "Appointment.Description": {
+                    required: true,
+                    maxlength: 20
+                }
+            },
+
+            //display error alert on form submit  
+            invalidHandler: function (event, validator) {
+                mUtil.scrollTo("forSavedCustomer", -200);
+                var alert = $('#appointmentValidateAlertMessage');
+                alert.removeClass('m--hide').show();
+                mUtil.scrollTop();
+            },
+            messages: {
+
+                "Appointment.CustomerId": "Lütfen Adı Giriniz",
+
+                "Appointment.StartTime": "Lütfen Randevu Tarih Bilgilerini Giriniz",
+
+                "Appointment.Department": "Lütfen Birim Seçiniz",
+
+                "Appointment.Description": "Lütfen Açıklama Giriniz"
+            },
+            highlight: function (element) {
+                $(element).parent().addClass('has-danger');
+            },
+            unhighlight: function (element) {
+                $(element).parent().removeClass('has-danger');
+            }
+        });
+    }
+
+</script>

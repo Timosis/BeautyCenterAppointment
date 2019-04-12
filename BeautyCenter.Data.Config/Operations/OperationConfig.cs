@@ -13,7 +13,6 @@ namespace BeautyCenter.Data.Config.Operations
         {
             builder.ToTable(nameof(Operation), Constants.Schemas.Operation);
             builder.Property(p => p.Datetime).IsRequired().HasColumnType(Constants.DataTypes.Datetime);
-            builder.Property(p => p.Department).IsRequired().HasColumnType(Constants.DataTypes.VarChar);
             builder.Property(p => p.Amount).IsRequired().HasColumnType(Constants.DataTypes.Float);
             builder.Property(p => p.IsPaid).IsRequired().HasColumnType(Constants.DataTypes.Bit);
             base.Configure(builder);

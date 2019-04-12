@@ -18,7 +18,7 @@
             <button type="button" class="close" data-close="alert" aria-label="Close"></button>
         </div>
     </div>
-    <form id="addNewCustomer" asp-controller="Customer" asp-action="Customer_Create" class="m-form m-form--state" method="post">
+    <form id="addNewCustomer" asp-controller="Customer" asp-action="Customer_Create" data-ajax="true" data-ajax-method="post" class="m-form m-form--state">
         <div class="form-group">
             <label for="recipient-name" class="form-control-label">Ad</label>
             <input asp-for="Customer.Firstname" type="text" class="form-control" id="Firstname" aria-required="true">

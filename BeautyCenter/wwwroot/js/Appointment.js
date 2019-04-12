@@ -9,7 +9,7 @@
                     center: 'title',
                     right: 'month,agendaWeek,agendaDay,listWeek'
                 },
-                editable: true,
+                editable: false,
                 eventLimit: true, // allow "more" link when too many events
                 navLinks: true,
                 events: function (start, end, timezone, callback) {
@@ -20,12 +20,17 @@
                         success: function (result) {
                             var events = [];
                             $.each(result, function (i, data) {
+
+                                debugger;
+
                                 events.push(
                                     {
                                         title: data.Title,
                                         description: data.Desc,
-                                        start: moment(data.Start).format('YYYY-MM-DD'),
-                                        end: moment(data.End).format('YYYY-MM-DD'),                                                                               
+                                        start: moment(data.StartTime).format('YYYY-MM-DD HH:mm'),
+                                        end: moment(data.EndTime).format('YYYY-MM-DD HH:mm'),
+                                        color: "#" + data.Service.ColorClass,      
+                                        className: "m-fc-event--primary",
                                     });
                             });
 
@@ -33,6 +38,7 @@
                         }
                     });
                 },
+
                 //events: [
                 //    {
                 //        title: 'All Day Event',

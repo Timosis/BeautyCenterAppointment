@@ -1,0 +1,126 @@
+﻿@model BeautyCenter.Models.ProductAndService.AddServiceVm
+
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">Yeni İşlem</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="m-alert m-alert--icon alert alert-danger m--hide" role="alert" id="m_form_1_msg">
+        <div class="m-alert__icon">
+            <i class="la la-warning"></i>
+        </div>
+        <div class="m-alert__text">
+            Hay Aksi! Aşağıdaki bilgilerinden bazılarını doldurmayı unutmuş olmalısın.
+        </div>
+        <div class="m-alert__close">
+            <button type="button" class="close" data-close="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    <form id="addNewService" asp-controller="ProductAndService" asp-action="Service_Create" class="m-form m-form--state" method="post">
+        <div class="form-group">
+            <label for="recipient-name" class="form-control-label">İşlem Adı</label>
+            <input asp-for="Service.Name" type="text" class="form-control" id="Name" aria-required="true">
+        </div>
+        <div class="form-group">
+            <label for="message-text" class="form-control-label">İşlem Süresi (Dk)</label>
+            <input asp-for="Service.Duration" type="text" class="form-control m-input" id="Duration" aria-required="true">
+        </div>
+        <div class="form-group">
+            <label for="message-text" class="form-control-label">İşlem Ücreti</label>
+            <input asp-for="Service.Amount" type="text" class="form-control m-input" id="Amount" aria-required="true">
+        </div>
+        <div class="form-group">
+            <label for="message-text" class="form-control-label">Renk</label>
+            <select asp-for="Service.ColorClass" type="text" id="SelectColor" class="form-control" style="width: 100%" aria-required="true">
+                <option value="7FFFD4">Aqua</option>
+                <option value="71C7EC">Blue</option>
+                <option value="FFC0CB">Pink</option>
+                <option value="CD00CD">Purple</option>
+                <option value="FF0000">Red</option>
+                <option value="4169E1">Royal</option>
+                <option value="008000">Green</option>                
+            </select>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+    <button id="btnSave" type="submit" class="btn btn-primary">Kaydet</button>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#SelectColor').select2({
+            templateResult: formatState,
+            placeholder: "Renk Seçiniz...",            
+            language: {
+                inputTooShort: function () {
+                    return 'En az 3 harf giriniz...';
+                }
+            }
+        });
+
+        $("#btnSave").click(function () {
+            $("#addNewService").submit();
+        });
+        ValidateAddNewService();
+    });
+
+    function formatState(state) {
+        if (!state.id) {
+            return state.text;
+        }
+        var baseUrl = "/lib/theme/assets/demo/demo12/media/images/colorsicon";
+        var $state = $(
+            '<span><img src="' + baseUrl + '/' + state.element.value.toLowerCase() + '.png" /> ' + state.text + '</span>'
+        );
+        return $state;
+    };
+
+    function ValidateAddNewService() {
+        $("#addNewService").validate({
+            rules: {
+                "Service.Name": {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 20
+                },
+
+                "Service.Duration": {
+                    required: true,
+                    digits: true
+                },
+                "Service.Amount": {
+                    required: true,
+                    digits: true
+                },
+            },
+
+            //display error alert on form submit
+            invalidHandler: function (event, validator) {
+                mUtil.scrollTo("addNewService", -200);
+                var alert = $('#m_form_1_msg');
+                alert.removeClass('m--hide').show();
+                mUtil.scrollTop();
+            },
+            messages: {
+
+                "Service.Name": "Lütfen İşlem Adını Giriniz",
+
+                "Service.Duration":"Lütfen İşlem Süresini Giriniz",
+
+                "Service.Amount": "Lütfen İşlem Ücretini Giriniz",
+            },
+            highlight: function (element) {
+                $(element).parent().addClass('has-danger');
+            },
+            unhighlight: function (element) {
+                $(element).parent().removeClass('has-danger');
+            }
+        });
+    }
+
+</script>

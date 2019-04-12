@@ -20,6 +20,8 @@ namespace BeautyCenter.Data.Entities.Operations
 
         public int ShotNumber { get; set; }
 
+
+        public int OperationId { get; set; }
         public Operation Operation { get; set; }
     }
 }

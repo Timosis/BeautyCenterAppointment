@@ -1,0 +1,88 @@
+﻿@model BeautyCenter.Models.ProductAndService.UpdateServiceVm
+
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalLabel">İşlem Güncelleme</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="m-alert m-alert--icon alert alert-danger m--hide" role="alert" id="updateFormValidationMessage">
+        <div class="m-alert__icon">
+            <i class="la la-warning"></i>
+        </div>
+        <div class="m-alert__text">
+            Hay Aksi! Aşağıdaki bilgilerinden bazılarını doldurmayı unutmuş olmalısın.
+        </div>
+        <div class="m-alert__close">
+            <button type="button" class="close" data-close="alert" aria-label="Close"></button>
+        </div>
+    </div>
+    <form id="updateService" asp-controller="ProductAndService" asp-action="Service_Update" class="m-form m-form--state" method="post">
+        <input asp-for="Service.Id" type="hidden" id="ServiceId" />
+        <div class="form-group">
+            <label for="recipient-name" class="form-control-label">İşlem Adı</label>
+            <input asp-for="Service.Name" type="text" class="form-control" id="Name" aria-required="true">
+        </div>
+        <div class="form-group">
+            <label for="message-text" class="form-control-label">İşlem Süresi (Dk)</label>
+            <input asp-for="Service.Duration" type="text" class="form-control" id="Duration" aria-required="true">
+        </div>
+        <div class="form-group">
+            <label for="message-text" class="form-control-label">İşlem Ücreti</label>
+            <input asp-for="Service.Amount" type="text" class="form-control" id="Amount" aria-required="true">
+        </div>        
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+    <button id="btnUpdate" type="submit" class="btn btn-primary">Kaydet</button>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#btnUpdate').click(function () {
+            $('#updateService').submit();
+        })
+        ValidateUpdateService();
+    })
+
+    function ValidateUpdateService() {
+        $('#updateService').validate({
+            rules: {
+                'Service.Name': {
+                    required: true,
+                    minlength: 3,
+                    maxlength:30
+                },
+                'Service.Duration': {
+                    required: true,
+                    digits: true
+                },
+                'Service.Amount': {
+                    required: true,
+                    digits: true
+                }
+            },
+            invalidHandler: function (event, validator) {
+                mUtil.scrollTo("updateService", -200);
+                var alert = $('#updateFormValidationMessage');
+                alert.removeClass('m--hide').show();
+                mUtil.scrollTop();
+            },
+            messages: {
+                'Service.Name': 'Lütfen İşlem Adını Giriniz',
+                'Service.Duration': 'Lütfen İşlem Süresini Giriniz',
+                'Service.Amount': 'Lütfen İşlem Ücretini Giriniz'
+            },
+            highlight: function (element) {
+                $(element).parent().addClass('has-danger');
+            },
+            unhighlight: function (element) {
+                $(element).parent().removeClass('has-danger');
+            }
+        })
+    }
+</script>
+

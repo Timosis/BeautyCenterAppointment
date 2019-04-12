@@ -6,11 +6,19 @@ using AutoMapper;
 using BeautyCenter.Automapper;
 using BeautyCenter.Business.Appointments;
 using BeautyCenter.Business.Customers;
+using BeautyCenter.Business.Installments;
+using BeautyCenter.Business.Operation;
+using BeautyCenter.Business.Payment;
+using BeautyCenter.Business.ProductsAndServices;
 using BeautyCenter.Common.Infra.DataLayer;
 using BeautyCenter.Data.Context;
 using BeautyCenter.Data.Context.UnitOfWork;
 using BeautyCenter.Data.DataService.Appointments;
 using BeautyCenter.Data.DataService.Customers;
+using BeautyCenter.Data.DataService.Installments;
+using BeautyCenter.Data.DataService.Operations;
+using BeautyCenter.Data.DataService.Payments;
+using BeautyCenter.Data.DataService.ProductsAndServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -48,6 +56,15 @@ namespace BeautyCenter
             services.AddTransient<IAppointmentDataService, AppointmentDataService>();
             services.AddTransient<ICustomerBusiness, CustomerBusiness>();
             services.AddTransient<ICustomerDataService, CustomerDataService>();
+            services.AddTransient<IInstallmentBusiness, InstallmentBusiness>();
+            services.AddTransient<IInstallmentDataService, InstallmentDataService>();
+            services.AddTransient<IPaymentBusiness, PaymentBusiness>();
+            services.AddTransient<IPaymentDataService, PaymentDataService>();
+            services.AddTransient<IOperationsDataService, OperationsDataService>();
+            services.AddTransient<IOperationsBusiness, OperationBusiness>();
+
+            services.AddTransient<IServiceBusiness, ServiceBusiness>();
+            services.AddTransient<IServiceDataService, ServiceDataService>();
             services.AddTransient<IRepository, EntityFrameworkRepository>();
             services.AddTransient<IReadOnlyRepository, EntityFrameworkReadOnlyRepository>();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
@@ -61,7 +78,6 @@ namespace BeautyCenter
             services.AddMvc().AddNToastNotifyToastr(new ToastrOptions()
             {
                 PositionClass = ToastPositions.TopRight,
-                ProgressBar = true,
                 
             },new NToastNotifyOption() {
                 DefaultSuccessTitle = "Başarılı",

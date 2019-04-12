@@ -6,5 +6,9 @@ namespace BeautyCenter.Common.Types.Dto.Installment
 {
     public class InstallmentDetailDto
     {
+
+
+
+
     }
 }
